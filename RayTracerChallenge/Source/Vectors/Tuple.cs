@@ -1,6 +1,4 @@
-﻿using RT.Source;
-
-namespace RT.Source.Vectors
+﻿namespace RT.Source.Vectors
 {
     public class Tuple
     {
@@ -29,7 +27,7 @@ namespace RT.Source.Vectors
 
         public bool IsVector() { return w == 0; }
 
-        #region Operator overrides
+        #region Operators
 
         public static Tuple operator -(Tuple a) { return new Tuple(-a.x, -a.y, -a.z, -a.w); }
 
