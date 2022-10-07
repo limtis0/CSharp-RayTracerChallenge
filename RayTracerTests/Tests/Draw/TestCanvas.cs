@@ -14,6 +14,7 @@ namespace RayTracerTests
             int w = 10;
             int h = 20;
             Canvas canvas = new(w, h);
+            
             Assert.AreEqual(w, canvas.width);
             Assert.AreEqual(h, canvas.height);
 

@@ -3,9 +3,10 @@
     internal class Picture
     {
         public const int MaxPPMLineSize = 70;
+        private const string picturesPath = @"RayTracerProject\Pictures\";
 
         private static readonly string documentsDir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        private static readonly string picturesDir = Path.Combine(documentsDir, @"RayTracerProject\Pictures\");
+        private static readonly string picturesDir = Path.Combine(documentsDir, picturesPath);
 
         private static string NewFilePath(string extension)
         {
