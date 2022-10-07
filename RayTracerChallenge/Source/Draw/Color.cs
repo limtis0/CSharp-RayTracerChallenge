@@ -46,7 +46,10 @@
 
         public override int GetHashCode() { return HashCode.Combine(r, g, b); }
 
-        public override string ToString() { return $"Color(r:{r}, g:{g}, b:{b})"; }
+        // Used for PPM writing
+        public override string ToString() { return $"{To255Format(r)} {To255Format(g)} {To255Format(b)}"; }
+
+        private static int To255Format(float colorValue) { return Math.Clamp((int)(colorValue * 255), 0, 255); }
 
         #endregion
     }
