@@ -3,7 +3,7 @@
     internal class Picture
     {
         public const int MaxPPMLineSize = 70;
-        private const string picturesPath = @"RayTracerProject\Pictures\";
+        private const string picturesPath = @"RayTracerChallenge\Pictures\";
 
         private static readonly string documentsDir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private static readonly string picturesDir = Path.Combine(documentsDir, picturesPath);
