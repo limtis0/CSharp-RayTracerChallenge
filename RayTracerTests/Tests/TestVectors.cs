@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RT.Vectors;
-using RT;
+using RT.Source.Vectors;
+using RT.Source;
 
 namespace RayTracerTests
 {
@@ -122,7 +122,7 @@ namespace RayTracerTests
 
             // Magnitude of normalized vector is 1
             Vector norm = Vector.Normalize(v2);
-            Assert.IsTrue(Math.Equals(Vector.Magnitude(norm), 1));
+            Assert.IsTrue(Calc.Equals(Vector.Magnitude(norm), 1));
         }
 
         [TestMethod]
