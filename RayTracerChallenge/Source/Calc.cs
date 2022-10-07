@@ -2,11 +2,11 @@
 {
     public static class Calc
     {
-        const float EPSILON = 0.00001f;
+        const float Epsilon = 0.00001f;
 
         public static bool Equals(float a, float b)
         {
-            if (Math.Abs(a - b) < EPSILON) return true;
+            if (Math.Abs(a - b) < Epsilon) return true;
             return false;
         }
     }
