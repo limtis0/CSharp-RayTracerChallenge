@@ -28,6 +28,7 @@
         public void WritePixel(int width, int height, Color pixel) { pixels[height, width] = pixel; }
 
         #region OutputPPM
+
         // Returns rows, placing new line when length reaches MaxPPMLineSize
         public IEnumerable<string> PPMStrings()
         {
@@ -61,6 +62,7 @@
         }
 
         public void ToPPM() { Picture.CanvasToPPM(this); }
+
         #endregion
     }
 }

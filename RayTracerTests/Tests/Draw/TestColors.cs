@@ -39,6 +39,7 @@ namespace RayTracerTests
             Color c2 = new(1f, 0.2f, 0.4f);
             Color c3 = new(0.9f, 1f, 0.1f);
             Color expected2 = new(0.9f, 0.2f, 0.04f);
+            
             Assert.AreEqual(c2 * c3, expected2);
         }
     }
