@@ -7,6 +7,14 @@
         public float z;
         public float w;
 
+        public Tuple()
+        {
+            x = 0;
+            y = 0;
+            z = 0;
+            w = 0;
+        }
+
         // For Point/Vector inheritance
         public Tuple(float x, float y, float z)
         {
