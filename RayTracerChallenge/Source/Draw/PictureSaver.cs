@@ -1,6 +1,6 @@
 ﻿namespace RT.Source.Draw
 {
-    internal class Picture
+    internal class PictureSaver
     {
         public const int MaxPPMLineSize = 70;
         private const string PicturesPath = @"RayTracerChallenge\Pictures\";
@@ -8,11 +8,9 @@
         private static readonly string documentsDir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private static readonly string picturesDir = Path.Combine(documentsDir, PicturesPath);
 
-        private static string NewFilePath(string extension)
-        {
-            string timestamp = DateTime.Now.ToFileTime().ToString();
-            return Path.Combine(picturesDir, $"{timestamp}.{extension}");
-        }
+        // Returns unique filename
+        private static string NewFilePath(string extension) =>
+            Path.Combine(picturesDir, $"{DateTime.Now.Ticks - new DateTime(2016, 1, 1).Ticks:x}.{extension}");
 
         private static void WritePPMHeader(StreamWriter sw, Canvas canvas)
         {
@@ -23,6 +21,8 @@
 
         public static void CanvasToPPM(Canvas canvas)
         {
+            Directory.CreateDirectory(picturesDir);
+
             using StreamWriter sw = File.CreateText(NewFilePath("ppm"));
             
             WritePPMHeader(sw, canvas);

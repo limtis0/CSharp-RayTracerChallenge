@@ -20,17 +20,17 @@
             Color black = new();
             for (int h = 0; h < height; h++)
                 for (int w = 0; w < width; w++)
-                    WritePixel(w, h, black);
+                    SetPixel(w, h, black);
         }
 
-        public Color ReadPixel(int width, int height) => pixels[height, width];
+        public Color GetPixel(int width, int height) => pixels[height, width];
 
-        public void WritePixel(int width, int height, Color pixel) => pixels[height, width] = pixel;
+        public void SetPixel(int width, int height, Color pixel) => pixels[height, width] = pixel;
 
         #region OutputPPM
 
         // Returns rows, placing new line when length reaches MaxPPMLineSize
-        public IEnumerable<string> PPMStrings()
+        internal IEnumerable<string> PPMStrings()
         {
             List<string> line = new();
             Queue<string> queue = new();
@@ -41,7 +41,7 @@
 
                 while (queue.Count > 0)
                 {
-                    while (queue.Count > 0 && LineSizePPM(line, queue) <= Picture.MaxPPMLineSize)
+                    while (queue.Count > 0 && LineSizePPM(line, queue) <= PictureSaver.MaxPPMLineSize)
                         line.Add(queue.Dequeue());
 
                     yield return string.Join(" ", line);
@@ -52,7 +52,7 @@
 
         private void FillPixelQueuePPM(Queue<string> queue, int width, int height)
         {
-            foreach (string rgbValue in ReadPixel(width, height).ToString().Split())
+            foreach (string rgbValue in GetPixel(width, height).ToString().Split())
                 queue.Enqueue(rgbValue);
         }
 
@@ -61,7 +61,7 @@
             return line.Sum(l => l.Length) + line.Count + queue.Peek()!.Length;
         }
 
-        public void ToPPM() => Picture.CanvasToPPM(this);
+        public void ToPPM() => PictureSaver.CanvasToPPM(this);
 
         #endregion
     }

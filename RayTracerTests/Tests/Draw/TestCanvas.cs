@@ -24,7 +24,7 @@ namespace RayTracerTests
 
             for (int i = 0; i < canvas.width && isBlack; i++)
                 for (int j = 0; j < canvas.height && isBlack; j++)
-                    if (canvas.ReadPixel(i, j) != black)
+                    if (canvas.GetPixel(i, j) != black)
                         isBlack = false;
 
             Assert.IsTrue(isBlack);
@@ -36,10 +36,10 @@ namespace RayTracerTests
             Canvas canvas = new(10, 10);
             Color red = new(1, 0, 0);
 
-            canvas.WritePixel(1, 1, red);
+            canvas.SetPixel(1, 1, red);
             
-            Assert.AreEqual(canvas.ReadPixel(1, 1), red); // Changed needed
-            Assert.AreNotEqual(canvas.ReadPixel(2, 3), red); // Not changed others
+            Assert.AreEqual(canvas.GetPixel(1, 1), red); // Changed needed
+            Assert.AreNotEqual(canvas.GetPixel(2, 3), red); // Not changed others
         }
 
         [TestMethod]
@@ -49,7 +49,7 @@ namespace RayTracerTests
             Color color = new(1f, 0.8f, 0.6f);
             for (int h = 0; h < canvas.height; h++)
                 for (int w = 0; w < canvas.width; w++)
-                    canvas.WritePixel(w, h, color);
+                    canvas.SetPixel(w, h, color);
 
             string text = string.Join("\n", canvas.PPMStrings());
             string expected = "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n" +
