@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RT.Source;
-using RT.Source.Vectors;
 using RT.Source.Matrices;
+using RT.Source.Vectors;
 
 namespace RayTracerTests
 {
@@ -39,7 +39,7 @@ namespace RayTracerTests
                 {9, 8, 7, 6},
                 {5, 4, 3, 2},
             });
-            
+
             Matrix m2 = new(new float[,]
             {
                 {-2, 1, 2, 3},
@@ -67,7 +67,7 @@ namespace RayTracerTests
                 {1, 2, 3},
                 {4, 5, 6}
             });
-            
+
             Matrix m2 = new(new float[,]
             {
                 {10, 11},
@@ -81,7 +81,7 @@ namespace RayTracerTests
                 {320, 335}
             });
 
-            Assert.AreEqual(m1*m2, expected);
+            Assert.AreEqual(m1 * m2, expected);
         }
 
         [TestMethod]
@@ -104,7 +104,7 @@ namespace RayTracerTests
         [TestMethod]
         public void TestIdentity()
         {
-            Matrix m = new(new float[,] 
+            Matrix m = new(new float[,]
             {
                 {0, 1, 2, 4},
                 {1, 2, 4, 8},
@@ -141,7 +141,7 @@ namespace RayTracerTests
             });
 
             Assert.AreEqual(m.Transposed(), transposed);
-            
+
             // For Identity
             Assert.AreEqual(Matrix.Identity(4), Matrix.Identity(4).Transposed());
         }
@@ -325,7 +325,7 @@ namespace RayTracerTests
                 {-4, 4, 4, 1},
                 {-6, 5, -1, 1}
             });
-            
+
             Matrix b = new(new float[,]
             {
                 {8, 2, 2, 2},
