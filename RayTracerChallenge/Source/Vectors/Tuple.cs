@@ -31,9 +31,9 @@
             this.w = w;
         }
 
-        public bool IsPoint() { return w == 1; }
+        public bool IsPoint() => w == 1;
 
-        public bool IsVector() { return w == 0; }
+        public bool IsVector() => w == 0;
 
         #region Operators
 

@@ -49,7 +49,7 @@ namespace RT.Source.Matrices
             return true;
         }
 
-        public static bool operator !=(Matrix a, Matrix b) { return !(a == b); }
+        public static bool operator !=(Matrix a, Matrix b) => !(a == b);
 
         public override bool Equals(object? obj)
         {
@@ -59,7 +59,7 @@ namespace RT.Source.Matrices
             return this == item;
         }
 
-        public override int GetHashCode() { return HashCode.Combine(matrix); }
+        public override int GetHashCode() => HashCode.Combine(matrix);
 
         // Error prevention
         private static void AssertMatricesAreMultipliable(Matrix a, Matrix b)

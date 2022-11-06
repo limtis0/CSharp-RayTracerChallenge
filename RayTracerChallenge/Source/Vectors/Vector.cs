@@ -11,10 +11,7 @@
         }
 
         // Basically vector distance
-        public static float Magnitude(Vector a)
-        {
-            return (float)System.Math.Sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
-        }
+        public static float Magnitude(Vector a) => (float)System.Math.Sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
 
         // Returns vector with magnitude == 1
         public static Vector Normalize(Vector a)
@@ -24,7 +21,7 @@
         }
 
         // Has values between -1 to 1; Lower the value - bigger the angle between vectors
-        public static float DotProduct(Vector a, Vector b) { return a.x * b.x + a.y * b.y + a.z * b.z; }
+        public static float DotProduct(Vector a, Vector b) => a.x * b.x + a.y * b.y + a.z * b.z;
 
         // Returns a vector, perpendicular to both A and B vectors; Order matters!
         public static Vector CrossProduct(Vector a, Vector b)

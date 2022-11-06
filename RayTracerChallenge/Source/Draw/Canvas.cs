@@ -23,9 +23,9 @@
                     WritePixel(w, h, black);
         }
 
-        public Color ReadPixel(int width, int height) { return pixels[height, width]; }
+        public Color ReadPixel(int width, int height) => pixels[height, width];
 
-        public void WritePixel(int width, int height, Color pixel) { pixels[height, width] = pixel; }
+        public void WritePixel(int width, int height, Color pixel) => pixels[height, width] = pixel;
 
         #region OutputPPM
 
@@ -61,7 +61,7 @@
             return line.Sum(l => l.Length) + line.Count + queue.Peek()!.Length;
         }
 
-        public void ToPPM() { Picture.CanvasToPPM(this); }
+        public void ToPPM() => Picture.CanvasToPPM(this);
 
         #endregion
     }
