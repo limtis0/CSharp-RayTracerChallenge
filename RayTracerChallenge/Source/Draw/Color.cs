@@ -22,13 +22,13 @@
 
         #region Operators
 
-        public static Color operator +(Color a, Color b) => new Color(a.r + b.r, a.g + b.g, a.b + b.b);
+        public static Color operator +(Color a, Color b) => new(a.r + b.r, a.g + b.g, a.b + b.b);
 
-        public static Color operator -(Color a, Color b) => new Color(a.r - b.r, a.g - b.g, a.b - b.b);
+        public static Color operator -(Color a, Color b) => new(a.r - b.r, a.g - b.g, a.b - b.b);
 
-        public static Color operator *(Color a, Color b) => new Color(a.r * b.r, a.g * b.g, a.b * b.b);
+        public static Color operator *(Color a, Color b) => new(a.r * b.r, a.g * b.g, a.b * b.b);
 
-        public static Color operator *(Color a, float b) => new Color(a.r * b, a.g * b, a.b * b);
+        public static Color operator *(Color a, float b) => new(a.r * b, a.g * b, a.b * b);
 
         public static bool operator ==(Color a, Color b) => Calc.Equals(a.r, b.r) && Calc.Equals(a.g, b.g) && Calc.Equals(a.b, b.b);
 
