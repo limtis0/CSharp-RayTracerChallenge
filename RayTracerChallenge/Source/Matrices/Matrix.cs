@@ -1,4 +1,7 @@
-﻿namespace RT.Source.Matrices
+﻿using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("RayTracerTests")]
+namespace RT.Source.Matrices
 {
     public class Matrix
     {
@@ -21,14 +24,28 @@
             width = matrix.GetLength(1);
         }
 
+        public static Matrix Identity(int size)
+        {
+            Matrix m = new(size, size);
+            for (int i = 0; i < size; i++)
+                m.matrix[i, i] = 1;
+
+            return m;
+        }
+
         #region Operators
 
-        // For equality
-        private static float[] FlattenMatrix(Matrix m) { return m.matrix.Cast<float>().ToArray(); }
-
-        public static bool operator ==(Matrix a, Matrix b) 
+        public static bool operator ==(Matrix a, Matrix b)
         {
-            return a.width == b.width && a.height == b.height && FlattenMatrix(a).SequenceEqual(FlattenMatrix(b));
+            if (a.width != b.width || a.height != b.height)
+                return false;
+
+            for (int row = 0; row < a.height; row++)
+                for (int col = 0; col < a.width; col++)
+                    if (!Calc.Equals(a.matrix[row, col], b.matrix[row, col]))
+                        return false;
+
+            return true;
         }
 
         public static bool operator !=(Matrix a, Matrix b) { return !(a == b); }
@@ -74,15 +91,6 @@
 
         #endregion
 
-        public static Matrix Identity(int size)
-        {
-            Matrix m = new(size, size);
-            for (int i = 0; i < size; i++)
-                m.matrix[i, i] = 1;
-
-            return m;
-        }
-
         #region Complex operations
 
         public Matrix Transposed()
@@ -91,6 +99,73 @@
             for (int row = 0; row < height; row++)
                 for (int col = 0; col < width; col++)
                     m.matrix[col, row] = matrix[row, col];
+
+            return m;
+        }
+
+        internal Matrix Submatrix(int removeRow, int removeCol)
+        {
+            int skipped_row = 0;
+            int skipped_col;
+            Matrix m = new(width - 1, height - 1);
+
+            for (int row = 0; row < height; row++)
+            {
+                if (row == removeRow) {
+                    skipped_row = 1;
+                    continue;
+                }
+
+                skipped_col = 0;
+                for (int col = 0; col < width; col++)
+                {
+                    if (col == removeCol) {
+                        skipped_col = 1;
+                        continue;
+                    }
+                    m.matrix[row - skipped_row, col - skipped_col] = matrix[row, col];
+                }
+            }
+            return m;
+        }
+
+        internal float Minor(int removeRow, int removeCol) => Submatrix(removeRow, removeCol).Determinant();
+
+        // Negate if removeRow + removeCol is odd
+        internal float Cofactor(int removeRow, int removeCol) => Minor(removeRow, removeCol) * (((removeRow + removeCol) % 2 == 0) ? 1: -1);
+
+        private void AssertIsSquareMatrix()
+        {
+            if (width != height)
+                throw new ArgumentException($"Matrix is not square: width {width} != height {height}");
+        }
+
+        internal float Determinant()
+        {   
+            // For 2x2 matrices
+            if (width == 2)
+                return (matrix[0, 0] * matrix[1, 1]) - (matrix[0, 1] * matrix[1, 0]);
+
+            float det = 0;
+            for (int col = 0; col < width; col++)
+                det += matrix[0, col] * Cofactor(0, col);
+
+            return det;
+        }
+
+        public Matrix Inverse()
+        {
+            float det = Determinant();
+            
+            if (det == 0)
+                throw new ArgumentException("Matrix is not inversible: Determinant == 0");
+
+            Matrix m = new(height, width);
+
+            for (int row = 0; row < height; row++)
+                for (int col = 0; col < width; col++)
+                    // [col, row] for transposing
+                    m.matrix[col, row] = Cofactor(row, col) / det;
 
             return m;
         }
