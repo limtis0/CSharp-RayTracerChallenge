@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Linq;
 
 [assembly: InternalsVisibleTo("RayTracerTests")]
 namespace RT.Source.Matrices
@@ -53,9 +54,7 @@ namespace RT.Source.Matrices
         public override bool Equals(object? obj)
         {
             if (obj is not Matrix item)
-            {
                 return false;
-            }
 
             return this == item;
         }
@@ -87,6 +86,16 @@ namespace RT.Source.Matrices
             Matrix mult = m * tuple_matrix;
 
             return new Vectors.Tuple(mult.matrix[0, 0], mult.matrix[1, 0], mult.matrix[2, 0], mult.matrix[3, 0]);
+        }
+
+        public override string ToString()
+        {
+            string res = "{ ";
+            for (int row = 0; row < height; row++)
+                // Get single row as a string
+                res += $"{{{string.Join(", ", Enumerable.Range(0, width).Select(x => matrix[row, x].ToString()).ToArray())}}}, ";
+            res += "}";
+            return res;
         }
 
         #endregion
