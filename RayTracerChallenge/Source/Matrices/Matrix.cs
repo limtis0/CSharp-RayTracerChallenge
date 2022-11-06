@@ -1,14 +1,26 @@
 ﻿using System.Runtime.CompilerServices;
-using System.Linq;
+using static System.Math;
 
 [assembly: InternalsVisibleTo("RayTracerTests")]
 namespace RT.Source.Matrices
 {
     public class Matrix
     {
+        private const int STDSize = 4;
+
         public readonly float[,] matrix;
         private readonly int width;
         private readonly int height;
+
+        #region Constructors
+
+        // Standard size is 4x4
+        public Matrix()
+        {
+            this.height = STDSize;
+            this.width = STDSize;
+            matrix = new float[width, height];
+        }
 
         // Init with zeros
         public Matrix(int height, int width)
@@ -33,6 +45,10 @@ namespace RT.Source.Matrices
 
             return m;
         }
+
+        public static Matrix Identity() => Identity(STDSize);
+
+        #endregion
 
         #region Operators
 
@@ -116,8 +132,8 @@ namespace RT.Source.Matrices
         {
             int skipped_row = 0;
             int skipped_col;
-            Matrix m = new(width - 1, height - 1);
 
+            Matrix m = new(width - 1, height - 1);
             for (int row = 0; row < height; row++)
             {
                 if (row == removeRow) {
@@ -135,6 +151,7 @@ namespace RT.Source.Matrices
                     m.matrix[row - skipped_row, col - skipped_col] = matrix[row, col];
                 }
             }
+
             return m;
         }
 
@@ -173,7 +190,6 @@ namespace RT.Source.Matrices
                 throw new ArgumentException("Matrix is not inversible: Determinant == 0");
 
             Matrix m = new(height, width);
-
             for (int row = 0; row < height; row++)
                 for (int col = 0; col < width; col++)
                     // [col, row] for transposing
@@ -181,6 +197,89 @@ namespace RT.Source.Matrices
 
             return m;
         }
+
+        #endregion
+
+        #region Transformations
+
+        public static Matrix Translation(float x, float y, float z, bool inverse = false)
+        {
+            Matrix m = Identity();
+            m.matrix[0, 3] = x;
+            m.matrix[1, 3] = y;
+            m.matrix[2, 3] = z;
+
+            return inverse ? m.Inverse() : m;
+        }
+
+        public static Matrix Scaling(float x, float y, float z, bool inverse = false)
+        {
+            Matrix m = Identity();
+            m.matrix[0, 0] = x;
+            m.matrix[1, 1] = y;
+            m.matrix[2, 2] = z;
+
+            return inverse ? m.Inverse() : m;
+        }
+
+        public static Matrix RotationX(float rad, bool inverse = false)
+        {
+            Matrix m = Identity();
+            m.matrix[1, 1] = (float) Cos(rad);
+            m.matrix[1, 2] = (float) -Sin(rad);
+            m.matrix[2, 1] = (float) Sin(rad);
+            m.matrix[2, 2] = (float) Cos(rad);
+
+            return inverse ? m.Inverse() : m;
+        }
+
+        public static Matrix RotationY(float rad, bool inverse = false)
+        {
+            Matrix m = Identity();
+            m.matrix[0, 0] = (float) Cos(rad);
+            m.matrix[0, 2] = (float) Sin(rad);
+            m.matrix[2, 0] = (float) -Sin(rad);
+            m.matrix[2, 2] = (float) Cos(rad);
+
+            return inverse ? m.Inverse() : m;
+        }
+
+        public static Matrix RotationZ(float rad, bool inverse = false)
+        {
+            Matrix m = Identity();
+            m.matrix[0, 0] = (float) Cos(rad);
+            m.matrix[0, 1] = (float) -Sin(rad);
+            m.matrix[1, 0] = (float) Sin(rad);
+            m.matrix[1, 1] = (float) Cos(rad);
+
+            return inverse ? m.Inverse() : m;
+        }
+
+        public static Matrix Skewing(float xy, float xz, float yx, float yz, float zx, float zy, bool inverse = false)
+        {
+            Matrix m = Identity();
+            m.matrix[0, 1] = xy;
+            m.matrix[0, 2] = xz;
+            m.matrix[1, 0] = yx;
+            m.matrix[1, 2] = yz;
+            m.matrix[2, 0] = zx;
+            m.matrix[2, 1] = zy;
+
+            return inverse ? m.Inverse() : m;
+        }
+
+        public Matrix Translate(float x, float y, float z, bool inverse = false) => this * Translation(x, y, z, inverse);
+
+        public Matrix Scale(float x, float y, float z, bool inverse = false) => this * Scaling(x, y, z, inverse);
+
+        public Matrix RotateX(float rad, bool inverse = false) => this * RotationX(rad, inverse);
+
+        public Matrix RotateY(float rad, bool inverse = false) => this * RotationY(rad, inverse);
+
+        public Matrix RotateZ(float rad, bool inverse = false) => this * RotationZ(rad, inverse);
+
+        public Matrix Skew(float xy, float xz, float yx, float yz, float zx, float zy, bool inverse = false) 
+            => this * Skewing(xy, xz, yx, yz, zx, zy, inverse);
 
         #endregion
     }

@@ -1,4 +1,6 @@
-﻿namespace RT.Source.Vectors
+﻿using RT.Source.Matrices;
+
+namespace RT.Source.Vectors
 {
     public class Tuple
     {
@@ -70,6 +72,23 @@
         public override int GetHashCode() { return HashCode.Combine(x, y, z, w); }
 
         public override string ToString() { return $"Tuple(x:{x}, y:{y}, z:{z}, w:{w})"; }
+
+        #endregion
+
+        #region Transformations
+
+        public Tuple Translate(float x, float y, float z, bool inverse = false) => Matrix.Translation(x, y, z, inverse) * this;
+
+        public Tuple Scale(float x, float y, float z, bool inverse = false) => Matrix.Scaling(x, y, z, inverse) * this;
+
+        public Tuple RotateX(float rad, bool inverse = false) => Matrix.RotationX(rad, inverse) * this;
+
+        public Tuple RotateY(float rad, bool inverse = false) => Matrix.RotationY(rad, inverse) * this;
+
+        public Tuple RotateZ(float rad, bool inverse = false) => Matrix.RotationZ(rad, inverse) * this;
+
+        public Tuple Skew(float xy, float xz, float yx, float yz, float zx, float zy, bool inverse = false)
+            => Matrix.Skewing(xy, xz, yx, yz, zx, zy, inverse) * this;
 
         #endregion
     }

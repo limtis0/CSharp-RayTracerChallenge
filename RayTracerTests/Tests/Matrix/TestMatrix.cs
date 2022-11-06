@@ -1,12 +1,15 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RT.Source.Matrices;
 using RT.Source;
+using RT.Source.Vectors;
+using RT.Source.Matrices;
 
 namespace RayTracerTests
 {
     [TestClass]
     public class TestMatrix
     {
+        #region Base
+
         [TestMethod]
         public void TestCreation()
         {
@@ -113,6 +116,10 @@ namespace RayTracerTests
             RT.Source.Vectors.Tuple t = new(1, 2, 3, 1);
             Assert.AreEqual(Matrix.Identity(4) * t, t);
         }
+
+        #endregion
+
+        #region Complex operations
 
         [TestMethod]
         public void TestTransposed()
@@ -331,5 +338,101 @@ namespace RayTracerTests
 
             Assert.AreEqual(c * b.Inverse(), a);
         }
+
+        #endregion
+
+        #region Transformations
+
+        [TestMethod]
+        public void TestTranslation()
+        {
+            // Multiplying point by translation
+            Point p = new(-3, 4, 5);
+            Point expected = new(2, 1, 7);
+            Assert.AreEqual(p.Translate(5, -3, 2), expected);
+
+
+            // Multiplying point by an inverse of translation
+            Point expectedInversed = new(-8, 7, 3);
+            Assert.AreEqual(p.Translate(5, -3, 2, inverse: true), expectedInversed);
+
+            // Multiplying vector shouldn't affect it
+            Vector v = new(1, 2, 3);
+            Assert.AreEqual(v.Translate(5, -3, 2), v);
+        }
+
+        [TestMethod]
+        public void TestScaling()
+        {
+            // Multiplying point by scaling
+            Point p = new(-4, 6, 8);
+            Point pExpected = new(-8, 18, 32);
+            Assert.AreEqual(p.Scale(2, 3, 4), pExpected);
+
+            // Multiplying vector by scaling
+            Vector v = new(-4, 6, 8);
+            Vector vExpected = new(-8, 18, 32);
+            Assert.AreEqual(v.Scale(2, 3, 4), vExpected);
+
+            // Multiplying by an inverse of scaling
+            Vector vExpectedInversed = new(-2, 2, 2);
+            Assert.AreEqual(v.Scale(2, 3, 4, inverse: true), vExpectedInversed);
+
+            // Reflecting (Scaling by opposite)
+            Point refExpected = new(4, 6, 8);
+            Assert.AreEqual(p.Scale(-1, 1, 1), refExpected);
+        }
+
+        [TestMethod]
+        public void TestRotationX()
+        {
+            Point p = new(0, 1, 0);
+            Point expectedHalfQuarter = new(0, 0.707106f, 0.707106f);
+            Assert.AreEqual(p.RotateX(Calc.PI / 4), expectedHalfQuarter);
+
+            Point expectedFullQuarter = new(0, 0, 1);
+            Assert.AreEqual(p.RotateX(Calc.PI / 2), expectedFullQuarter);
+
+            // By an inverse
+            Point expectedInversedHalfQuarter = new(0, 0.707106f, -0.707106f);
+            Assert.AreEqual(p.RotateX(Calc.PI / 4, inverse: true), expectedInversedHalfQuarter);
+        }
+
+        [TestMethod]
+        public void TestRotationY()
+        {
+            Point p = new(0, 0, 1);
+            Point expectedHalfQuarter = new(0.707106f, 0, 0.707106f);
+            Assert.AreEqual(p.RotateY(Calc.PI / 4), expectedHalfQuarter);
+
+            Point expectedFullQuarter = new(1, 0, 0);
+            Assert.AreEqual(p.RotateY(Calc.PI / 2), expectedFullQuarter);
+        }
+
+        [TestMethod]
+        public void TestRotationZ()
+        {
+            Point p = new(0, 1, 0);
+            Point expectedHalfQuarter = new(-0.707106f, 0.707106f, 0);
+            Assert.AreEqual(p.RotateZ(Calc.PI / 4), expectedHalfQuarter);
+
+            Point expectedFullQuarter = new(-1, 0, 0);
+            Assert.AreEqual(p.RotateZ(Calc.PI / 2), expectedFullQuarter);
+        }
+
+        [TestMethod]
+        public void TestSkewing()
+        {
+            Point p = new(2, 3, 4);
+
+            Assert.AreEqual(p.Skew(1, 0, 0, 0, 0, 0), new Point(5, 3, 4));
+            Assert.AreEqual(p.Skew(0, 1, 0, 0, 0, 0), new Point(6, 3, 4));
+            Assert.AreEqual(p.Skew(0, 0, 1, 0, 0, 0), new Point(2, 5, 4));
+            Assert.AreEqual(p.Skew(0, 0, 0, 1, 0, 0), new Point(2, 7, 4));
+            Assert.AreEqual(p.Skew(0, 0, 0, 0, 1, 0), new Point(2, 3, 6));
+            Assert.AreEqual(p.Skew(0, 0, 0, 0, 0, 1), new Point(2, 3, 7));
+        }
+
+        #endregion
     }
 }
