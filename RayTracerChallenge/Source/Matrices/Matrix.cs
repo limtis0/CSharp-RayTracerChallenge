@@ -141,11 +141,14 @@ namespace RT.Source.Matrices
         }
 
         internal float Determinant()
-        {   
+        {
+            AssertIsSquareMatrix();
+
             // For 2x2 matrices
             if (width == 2)
                 return (matrix[0, 0] * matrix[1, 1]) - (matrix[0, 1] * matrix[1, 0]);
 
+            // Bigger than 2x2
             float det = 0;
             for (int col = 0; col < width; col++)
                 det += matrix[0, col] * Cofactor(0, col);

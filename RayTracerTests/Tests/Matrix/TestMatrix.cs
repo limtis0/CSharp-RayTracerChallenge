@@ -307,5 +307,29 @@ namespace RayTracerTests
 
             Assert.AreEqual(m3.Inverse(), inverse3);
         }
+
+        [TestMethod]
+        public void TestMultiplyByInverse()
+        {
+            Matrix a = new(new float[,]
+            {
+                {3, -9, 7, 3},
+                {3, -8, 2, -9},
+                {-4, 4, 4, 1},
+                {-6, 5, -1, 1}
+            });
+            
+            Matrix b = new(new float[,]
+            {
+                {8, 2, 2, 2},
+                {3, -1, 7, 0},
+                {7, 0, 5, 4},
+                {6, -2, 0, 5}
+            });
+
+            Matrix c = a * b;
+
+            Assert.AreEqual(c * b.Inverse(), a);
+        }
     }
 }
