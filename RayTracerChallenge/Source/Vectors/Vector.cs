@@ -2,7 +2,7 @@
 {
     public class Vector : Tuple
     {
-        public Vector(float x, float y, float z): base(x, y, z)
+        public Vector(float x, float y, float z) : base(x, y, z)
         {
             this.x = x;
             this.y = y;

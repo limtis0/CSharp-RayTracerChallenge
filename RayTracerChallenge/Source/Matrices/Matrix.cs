@@ -27,7 +27,7 @@ namespace RT.Source.Matrices
         {
             this.height = height;
             this.width = width;
-            matrix = new float[height,width];
+            matrix = new float[height, width];
         }
 
         public Matrix(float[,] matrix)
@@ -136,7 +136,8 @@ namespace RT.Source.Matrices
             Matrix m = new(width - 1, height - 1);
             for (int row = 0; row < height; row++)
             {
-                if (row == removeRow) {
+                if (row == removeRow)
+                {
                     skipped_row = 1;
                     continue;
                 }
@@ -144,7 +145,8 @@ namespace RT.Source.Matrices
                 skipped_col = 0;
                 for (int col = 0; col < width; col++)
                 {
-                    if (col == removeCol) {
+                    if (col == removeCol)
+                    {
                         skipped_col = 1;
                         continue;
                     }
@@ -158,7 +160,7 @@ namespace RT.Source.Matrices
         internal float Minor(int removeRow, int removeCol) => Submatrix(removeRow, removeCol).Determinant();
 
         // Negate if removeRow + removeCol is odd
-        internal float Cofactor(int removeRow, int removeCol) => Minor(removeRow, removeCol) * (((removeRow + removeCol) % 2 == 0) ? 1: -1);
+        internal float Cofactor(int removeRow, int removeCol) => Minor(removeRow, removeCol) * (((removeRow + removeCol) % 2 == 0) ? 1 : -1);
 
         private void AssertIsSquareMatrix()
         {
@@ -185,7 +187,7 @@ namespace RT.Source.Matrices
         public Matrix Inverse()
         {
             float det = Determinant();
-            
+
             if (det == 0)
                 throw new ArgumentException("Matrix is not inversible: Determinant == 0");
 
@@ -225,10 +227,10 @@ namespace RT.Source.Matrices
         public static Matrix RotationX(float rad, bool inverse = false)
         {
             Matrix m = Identity();
-            m.matrix[1, 1] = (float) Cos(rad);
-            m.matrix[1, 2] = (float) -Sin(rad);
-            m.matrix[2, 1] = (float) Sin(rad);
-            m.matrix[2, 2] = (float) Cos(rad);
+            m.matrix[1, 1] = (float)Cos(rad);
+            m.matrix[1, 2] = (float)-Sin(rad);
+            m.matrix[2, 1] = (float)Sin(rad);
+            m.matrix[2, 2] = (float)Cos(rad);
 
             return inverse ? m.Inverse() : m;
         }
@@ -236,10 +238,10 @@ namespace RT.Source.Matrices
         public static Matrix RotationY(float rad, bool inverse = false)
         {
             Matrix m = Identity();
-            m.matrix[0, 0] = (float) Cos(rad);
-            m.matrix[0, 2] = (float) Sin(rad);
-            m.matrix[2, 0] = (float) -Sin(rad);
-            m.matrix[2, 2] = (float) Cos(rad);
+            m.matrix[0, 0] = (float)Cos(rad);
+            m.matrix[0, 2] = (float)Sin(rad);
+            m.matrix[2, 0] = (float)-Sin(rad);
+            m.matrix[2, 2] = (float)Cos(rad);
 
             return inverse ? m.Inverse() : m;
         }
@@ -247,10 +249,10 @@ namespace RT.Source.Matrices
         public static Matrix RotationZ(float rad, bool inverse = false)
         {
             Matrix m = Identity();
-            m.matrix[0, 0] = (float) Cos(rad);
-            m.matrix[0, 1] = (float) -Sin(rad);
-            m.matrix[1, 0] = (float) Sin(rad);
-            m.matrix[1, 1] = (float) Cos(rad);
+            m.matrix[0, 0] = (float)Cos(rad);
+            m.matrix[0, 1] = (float)-Sin(rad);
+            m.matrix[1, 0] = (float)Sin(rad);
+            m.matrix[1, 1] = (float)Cos(rad);
 
             return inverse ? m.Inverse() : m;
         }
@@ -278,7 +280,7 @@ namespace RT.Source.Matrices
 
         public Matrix RotateZ(float rad, bool inverse = false) => this * RotationZ(rad, inverse);
 
-        public Matrix Skew(float xy, float xz, float yx, float yz, float zx, float zy, bool inverse = false) 
+        public Matrix Skew(float xy, float xz, float yx, float yz, float zx, float zy, bool inverse = false)
             => this * Skewing(xy, xz, yx, yz, zx, zy, inverse);
 
         #endregion
