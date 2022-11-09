@@ -17,8 +17,8 @@ namespace RT.Source.Matrices
         // Standard size is 4x4
         public Matrix()
         {
-            this.height = STDSize;
-            this.width = STDSize;
+            height = STDSize;
+            width = STDSize;
             matrix = new float[width, height];
         }
 
@@ -81,7 +81,7 @@ namespace RT.Source.Matrices
         private static void AssertMatricesAreMultipliable(Matrix a, Matrix b)
         {
             if (a.width != b.height)
-                throw new ArgumentException($"Matrices are not multipliable: height {a.width} != width {b.height}");
+                throw new ArgumentException($"Matrices are not multipliable: width {a.width} != height {b.height}");
         }
 
         public static Matrix operator *(Matrix a, Matrix b)
