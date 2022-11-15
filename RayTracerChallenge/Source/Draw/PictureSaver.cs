@@ -21,7 +21,7 @@
             string filename = ReverseString((DateTime.Now.Ticks - new DateTime(2016, 1, 1).Ticks).ToString("x"));
             return Path.Combine(picturesDir, $"{filename}.{extension}");
         }
-            
+
 
         private static void WritePPMHeader(StreamWriter sw, Canvas canvas)
         {

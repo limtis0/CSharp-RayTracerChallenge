@@ -37,21 +37,21 @@ namespace RT.Source.Vectors
 
         public bool IsVector() => w == 0;
 
-        public Point ToPoint() => IsPoint() ? new Point(x, y, z): throw new ArgumentException($"Can not cast {this} to a Point: w != 1");
+        public Point ToPoint() => IsPoint() ? new Point(x, y, z) : throw new ArgumentException($"Can not cast {this} to a Point: w != 1");
 
-        public Vector ToVector() => IsVector() ? new Vector(x, y, z): throw new ArgumentException($"Can not cast {this} to a Point: w != 1");
+        public Vector ToVector() => IsVector() ? new Vector(x, y, z) : throw new ArgumentException($"Can not cast {this} to a Vector: w != 0");
 
         #region Operators
 
-        public static Tuple operator -(Tuple a) { return new Tuple(-a.x, -a.y, -a.z, -a.w); }
+        public static Tuple operator -(Tuple a) => new(-a.x, -a.y, -a.z, -a.w);
 
-        public static Tuple operator +(Tuple a, Tuple b) { return new Tuple(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w); }
+        public static Tuple operator +(Tuple a, Tuple b) => new(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
 
-        public static Tuple operator -(Tuple a, Tuple b) { return new Tuple(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w); }
+        public static Tuple operator -(Tuple a, Tuple b) => new(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
 
-        public static Tuple operator *(Tuple a, float b) { return new Tuple(a.x * b, a.y * b, a.z * b, a.w * b); }
+        public static Tuple operator *(Tuple a, float b) => new(a.x * b, a.y * b, a.z * b, a.w * b);
 
-        public static Tuple operator /(Tuple a, float b) { return new Tuple(a.x / b, a.y / b, a.z / b, a.w / b); }
+        public static Tuple operator /(Tuple a, float b) => new(a.x / b, a.y / b, a.z / b, a.w / b);
 
         public static bool operator ==(Tuple a, Tuple b)
         {
@@ -63,19 +63,11 @@ namespace RT.Source.Vectors
             return !Calc.Equals(a.x, b.x) || !Calc.Equals(a.y, b.y) || !Calc.Equals(a.z, b.z) || !Calc.Equals(a.w, b.w);
         }
 
-        public override bool Equals(object? obj)
-        {
-            if (obj is not Tuple item)
-            {
-                return false;
-            }
+        public override bool Equals(object? obj) => obj is Tuple item && this == item;
 
-            return this == item;
-        }
+        public override int GetHashCode() => HashCode.Combine(x, y, z, w);
 
-        public override int GetHashCode() { return HashCode.Combine(x, y, z, w); }
-
-        public override string ToString() { return $"Tuple(x:{x}, y:{y}, z:{z}, w:{w})"; }
+        public override string ToString() => $"Tuple(x:{x}, y:{y}, z:{z}, w:{w})";
 
         #endregion
 
