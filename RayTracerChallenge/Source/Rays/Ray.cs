@@ -1,4 +1,6 @@
-﻿using RT.Source.Vectors;
+﻿using RT.Source.Figures;
+using RT.Source.Matrices;
+using RT.Source.Vectors;
 
 namespace RT.Source.Rays
 {
@@ -15,13 +17,15 @@ namespace RT.Source.Rays
 
         public Point Position(float t) => (origin + direction * t).ToPoint();
 
-        public Intersections IntersectionsWith(object Shape)
+        public Intersections IntersectionsWith(Figure shape)
         {
-            // Find discriminant
-            Vector shape_to_ray = (origin - new Point(0, 0, 0)).ToVector();  // TODO: Shape.Position
+            Ray invRay = Transform(shape.transform.Inverse());
 
-            float a = Vector.DotProduct(direction, direction);
-            float b = 2 * Vector.DotProduct(direction, shape_to_ray);
+            // Find discriminant
+            Vector shape_to_ray = (invRay.origin - shape.origin).ToVector();
+
+            float a = Vector.DotProduct(invRay.direction, invRay.direction);
+            float b = 2 * Vector.DotProduct(invRay.direction, shape_to_ray);
             float c = Vector.DotProduct(shape_to_ray, shape_to_ray) - 1;
             float discriminant = b * b - 4 * a * c;
 
@@ -34,11 +38,13 @@ namespace RT.Source.Rays
                 float t1 = (-b + sqrtD) / (2 * a);
                 float t2 = (-b - sqrtD) / (2 * a);
 
-                intersections.Insert(new Intersection(t1, Shape));
-                intersections.Insert(new Intersection(t2, Shape));
+                intersections.Insert(new Intersection(t1, shape));
+                intersections.Insert(new Intersection(t2, shape));
             }
 
             return intersections;
         }
+
+        public Ray Transform(Matrix m) => new((m * origin).ToPoint(), (m * direction).ToVector());
     }
 }

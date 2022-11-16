@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RT.Source.Figures;
+using RT.Source.Matrices;
 using RT.Source.Rays;
 using RT.Source.Vectors;
 
@@ -65,7 +66,7 @@ namespace RayTracerTests
             Assert.AreEqual(i3.Count, 0);
 
             // A ray originates inside the sphere
-            Ray r4 = new(Sphere.Center, new Vector(0, 0, 1));
+            Ray r4 = new(s.origin, new Vector(0, 0, 1));
             Intersections i4 = r4.IntersectionsWith(s);
 
             Assert.AreEqual(i4.Count, 2);
@@ -79,6 +80,25 @@ namespace RayTracerTests
             Assert.AreEqual(i5.Count, 2);
             Assert.AreEqual(i5[0].T, -6f);
             Assert.AreEqual(i5[1].T, -4f);
+        }
+
+        [TestMethod]
+        public void TestTransform()
+        {
+            // Translating a ray
+            Ray r = new(new Point(1, 2, 3), new Vector(0, 1, 0));
+            Matrix mt = Matrix.Translation(3, 4, 5);
+            Ray translated = r.Transform(mt);
+
+            Assert.AreEqual(translated.origin, new Point(4, 6, 8));
+            Assert.AreEqual(translated.direction, new Vector(0, 1, 0));
+
+            // Scaling a ray
+            Matrix ms = Matrix.Scaling(2, 3, 4);
+            Ray scaled = r.Transform(ms);
+
+            Assert.AreEqual(scaled.origin, new Point(2, 6, 12));
+            Assert.AreEqual(scaled.direction, new Vector(0, 3, 0));
         }
     }
 }
