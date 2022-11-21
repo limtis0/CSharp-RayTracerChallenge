@@ -1,5 +1,6 @@
 ﻿using RT.Source.Draw;
 using RT.Source.Figures;
+using RT.Source.Light;
 using RT.Source.Rays;
 using RT.Source.Vectors;
 
@@ -16,15 +17,21 @@ namespace RT
             const float halfWallSize = wallSize / 2;
 
             // Canvas setup
-            const int canvasSize = 256;
+            const int canvasSize = 512;
             const float pixelSize = wallSize / canvasSize;
             Canvas canvas = new(canvasSize, canvasSize);
-            Color white = new(1, 1, 1);
 
             // Sphere transformations
             Sphere s = new();
             s.transform = s.transform
-                .Scale(1, 0.5f, 1);
+                .Scale(0.5f, 1, 1)
+                .RotateZ(0.52f);
+            s.material.color = new Color(0, 1f, 0.1f);
+
+            // Light setup
+            Point lightPosition = new(-10, 10, -10);
+            Color lightColor = new(1, 1, 1);
+            PointLight light = new(lightPosition, lightColor);
 
             for (int y = 0; y < canvasSize; y++)
             {
@@ -41,8 +48,16 @@ namespace RT
                     Ray r = new(rayOrigin, Vector.Normalize(new Vector(position - rayOrigin)));
                     Intersections xs = r.IntersectionsWith(s);
 
-                    if (xs.Hit() is not null)
-                        canvas.SetPixel(y, x, white);
+                    Intersection? hit = xs.Hit();
+                    if (hit is not null)
+                    {
+                        Point hitPos = r.Position(hit.T);
+                        Vector normal = ((Sphere)hit.Figure).NormalAt(hitPos);
+                        Vector eye = new(-r.direction);
+                        Color color = ((Sphere)hit.Figure).material.Lighting(light, hitPos, eye, normal);
+
+                        canvas.SetPixel(y, x, color);
+                    }
                 }
             }
 

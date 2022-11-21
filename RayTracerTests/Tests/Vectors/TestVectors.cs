@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RT.Source;
 using RT.Source.Vectors;
+using static System.Math;
 
 namespace RayTracerTests
 {
@@ -154,6 +155,21 @@ namespace RayTracerTests
 
             Assert.AreEqual(Vector.CrossProduct(v1, v2), expected1);
             Assert.AreEqual(Vector.CrossProduct(v2, v1), expected2);
+        }
+
+        [TestMethod]
+        public void TestReflect()
+        {
+            // Reflect approaching 45 deg.
+            Vector v1 = new(1, -1, 0);
+            Vector n1 = new(0, 1, 0);
+            Assert.AreEqual(v1.Reflect(n1), new Vector(1, 1, 0));
+
+            // Reflect against slanted surface
+            float r2d2 = (float)(Sqrt(2) / 2);
+            Vector v2 = new(0, -1, 0);
+            Vector n2 = new(r2d2, r2d2, 0);
+            Assert.AreEqual(v2.Reflect(n2), new Vector(1, 0, 0));
         }
     }
 }

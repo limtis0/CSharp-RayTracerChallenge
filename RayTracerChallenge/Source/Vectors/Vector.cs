@@ -23,13 +23,13 @@
         }
 
         // Basically vector distance
-        public static float Magnitude(Vector a) => (float)System.Math.Sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
+        public static float Magnitude(Vector v) => (float)System.Math.Sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 
         // Returns vector with magnitude == 1
-        public static Vector Normalize(Vector a)
+        public static Vector Normalize(Vector v)
         {
-            float magn = Magnitude(a);
-            return new Vector(a.x / magn, a.y / magn, a.z / magn);
+            float magn = Magnitude(v);
+            return new Vector(v.x / magn, v.y / magn, v.z / magn);
         }
 
         // Has values between -1 to 1; Lower the value - bigger the angle between vectors
@@ -44,5 +44,7 @@
                 a.x * b.y - a.y * b.x
                 );
         }
+
+        public Vector Reflect(Vector normal) => new(this - normal * 2 * DotProduct(this, normal));
     }
 }
