@@ -15,14 +15,14 @@ namespace RT.Source.Rays
             this.direction = direction;
         }
 
-        public Point Position(float t) => (origin + direction * t).ToPoint();
+        public Point Position(float t) => new(origin + direction * t);
 
         public Intersections IntersectionsWith(Figure shape)
         {
             Ray invRay = Transform(shape.transform.Inverse());
 
             // Find discriminant
-            Vector shape_to_ray = (invRay.origin - shape.origin).ToVector();
+            Vector shape_to_ray = new(invRay.origin - shape.origin);
 
             float a = Vector.DotProduct(invRay.direction, invRay.direction);
             float b = 2 * Vector.DotProduct(invRay.direction, shape_to_ray);
@@ -45,6 +45,6 @@ namespace RT.Source.Rays
             return intersections;
         }
 
-        public Ray Transform(Matrix m) => new((m * origin).ToPoint(), (m * direction).ToVector());
+        public Ray Transform(Matrix m) => new(new Point(m * origin), new Vector(m * direction));
     }
 }

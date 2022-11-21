@@ -10,6 +10,18 @@
             w = 0;
         }
 
+        public Vector(Tuple t)
+        {
+            if (t.IsVector())
+            {
+                x = t.x;
+                y = t.y;
+                z = t.z;
+                w = 0;
+            }
+            else throw new ArgumentException($"Can not cast {this} to a Vector: w != 0");
+        }
+
         // Basically vector distance
         public static float Magnitude(Vector a) => (float)System.Math.Sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
 

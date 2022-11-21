@@ -37,10 +37,6 @@ namespace RT.Source.Vectors
 
         public bool IsVector() => w == 0;
 
-        public Point ToPoint() => IsPoint() ? new Point(x, y, z) : throw new ArgumentException($"Can not cast {this} to a Point: w != 1");
-
-        public Vector ToVector() => IsVector() ? new Vector(x, y, z) : throw new ArgumentException($"Can not cast {this} to a Vector: w != 0");
-
         #region Operators
 
         public static Tuple operator -(Tuple a) => new(-a.x, -a.y, -a.z, -a.w);

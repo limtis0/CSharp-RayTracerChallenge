@@ -38,7 +38,7 @@ namespace RT
                     // Point for the ray to target
                     Point position = new(worldX, worldY, wallZ);
 
-                    Ray r = new(rayOrigin, Vector.Normalize((position - rayOrigin).ToVector()));
+                    Ray r = new(rayOrigin, Vector.Normalize(new Vector(position - rayOrigin)));
                     Intersections xs = r.IntersectionsWith(s);
 
                     if (xs.Hit() is not null)
