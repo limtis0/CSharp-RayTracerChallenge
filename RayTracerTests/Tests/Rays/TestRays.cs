@@ -48,8 +48,8 @@ namespace RayTracerTests
             Assert.AreEqual(i1[1].T, 6f);
 
             // Assert sphere reference is saved
-            Assert.AreEqual(i1[0].Figure, s);
-            Assert.AreEqual(i1[1].Figure, s);
+            Assert.AreEqual(i1[0].figure, s);
+            Assert.AreEqual(i1[1].figure, s);
 
             // Intersect the sphere at a tangent
             Ray r2 = new(new Point(0, Sphere.Radius, -5), new Vector(0, 0, 1));

@@ -17,7 +17,9 @@ namespace RT.Source.Rays
 
         public Point Position(float t) => new(origin + direction * t);
 
-        public Intersections IntersectionsWith(Figure shape)
+        #region Intersections
+
+        private (Intersection?, Intersection?) IntersectShape(Figure shape)
         {
             Ray invRay = Transform(shape.transform.Inverse());
 
@@ -29,21 +31,38 @@ namespace RT.Source.Rays
             float c = Vector.DotProduct(shape_to_ray, shape_to_ray) - 1;
             float discriminant = b * b - 4 * a * c;
 
-            // Find intersections
-            Intersections intersections = new();
-
             if (discriminant >= 0)
             {
                 float sqrtD = (float)Math.Sqrt(discriminant);
                 float t1 = (-b + sqrtD) / (2 * a);
                 float t2 = (-b - sqrtD) / (2 * a);
 
-                intersections.Insert(new Intersection(t1, shape));
-                intersections.Insert(new Intersection(t2, shape));
+                return (new Intersection(t1, shape), new Intersection(t2, shape));
+            }
+
+            return (null, null);
+        }
+
+        public Intersections IntersectionsWith(Figure shape) => IntersectionsWith(new[] { shape });
+
+        public Intersections IntersectionsWith(IEnumerable<Figure> shapes)
+        {
+            Intersections intersections = new();
+
+            foreach (Figure shape in shapes)
+            {
+                (Intersection?, Intersection?) xs = IntersectShape(shape);
+                if (xs.Item1 is not null)
+                {
+                    intersections.Insert(xs.Item1);
+                    intersections.Insert(xs.Item2!);
+                }
             }
 
             return intersections;
         }
+
+        #endregion
 
         public Ray Transform(Matrix m) => new(new Point(m * origin), new Vector(m * direction));
     }

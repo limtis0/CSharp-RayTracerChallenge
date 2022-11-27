@@ -52,9 +52,9 @@ namespace RT
                     if (hit is not null)
                     {
                         Point hitPos = r.Position(hit.T);
-                        Vector normal = ((Sphere)hit.Figure).NormalAt(hitPos);
+                        Vector normal = ((Sphere)hit.figure).NormalAt(hitPos);
                         Vector eye = new(-r.direction);
-                        Color color = ((Sphere)hit.Figure).material.Lighting(light, hitPos, eye, normal);
+                        Color color = ((Sphere)hit.figure).material.Lighting(light, hitPos, eye, normal);
 
                         canvas.SetPixel(y, x, color);
                     }

@@ -30,7 +30,7 @@ namespace RT.Source.Materials
         /// <param name="diffuse">Light reflected from matte surface, depends on angle. Ranges from 0f to 1f.</param>
         /// <param name="specular">Reflection of light source itself, small bright spot. Ranges from 0f to 1f.</param>
         /// <param name="shininess">Overall shininess. Ranges from 10f (very large highlight) to 200f+ (very small highlight).</param>
-        public Material(Color color, float ambient, float diffuse, float specular, float shininess)
+        public Material(Color color, float ambient = 0.1f, float diffuse = 0.9f, float specular = 0.9f, float shininess = 200f)
         {
             AssertBetween(ambient, 0f, 1f);
             AssertBetween(diffuse, 0f, 1f);
@@ -71,7 +71,7 @@ namespace RT.Source.Materials
             float lightDotNormal = Vector.DotProduct(lightV, normalV);
             if (lightDotNormal < 0)
             {
-                colDiffuse = new(0, 0, 0); 
+                colDiffuse = new(0, 0, 0);
                 colSpecular = new(0, 0, 0);
             }
             else

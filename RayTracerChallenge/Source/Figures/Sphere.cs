@@ -19,7 +19,7 @@ namespace RT.Source.Figures
             this.material = material;
         }
 
-        public Vector NormalAt(Point p)
+        public override Vector NormalAt(Point p)
         {
             Matrix inv = transform.Inverse();
             Point objPoint = new(inv * p);
