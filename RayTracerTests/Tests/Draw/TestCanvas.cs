@@ -9,7 +9,7 @@ namespace RayTracerTests
         [TestMethod]
         public void TestCreation()
         {
-            // Check width/height
+            // Check height/width
             int h = 20;
             int w = 10;
             Canvas canvas = new(h, w);

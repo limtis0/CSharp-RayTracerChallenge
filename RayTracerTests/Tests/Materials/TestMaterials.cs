@@ -3,7 +3,7 @@ using RT.Source.Draw;
 using RT.Source.Light;
 using RT.Source.Materials;
 using RT.Source.Vectors;
-using static System.Math;
+using static System.MathF;
 
 namespace RayTracerTests
 {
@@ -29,7 +29,7 @@ namespace RayTracerTests
             // Setup
             Material m = new();
             Point position = new(0, 0, 0);
-            float r2d2 = (float)(Sqrt(2) / 2);
+            float r2d2 = Sqrt(2) / 2;
 
 
             // Lighting with eye between the light and the surface

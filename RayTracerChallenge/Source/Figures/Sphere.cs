@@ -31,5 +31,7 @@ namespace RT.Source.Figures
 
             return Vector.Normalize(new Vector(worldNormal));
         }
+
+        public override string ToString() => $"{GetType().Name} {id}";
     }
 }

@@ -1,7 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RT.Source;
 using RT.Source.Vectors;
-using static System.Math;
+using static System.MathF;
 
 namespace RayTracerTests
 {
@@ -125,7 +125,7 @@ namespace RayTracerTests
             // Absolute values
             Vector v4 = new(1, 2, 3);
             Vector v5 = new(-1, -2, -3);
-            float expected2 = (float)System.Math.Sqrt(14);
+            float expected2 = Sqrt(14);
 
             Assert.AreEqual(Vector.Magnitude(v4), expected2);
             Assert.AreEqual(Vector.Magnitude(v5), expected2);

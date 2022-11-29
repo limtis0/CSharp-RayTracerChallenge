@@ -6,7 +6,8 @@ namespace RT.Source.Figures
 {
     public abstract class Figure
     {
-        // public static readonly int Id = 0;
+        private static int globalId = 0;
+        public readonly int id = globalId++;
 
         public readonly Point origin = new(0, 0, 0);
 

@@ -1,6 +1,7 @@
 ﻿using RT.Source.Figures;
 using RT.Source.Matrices;
 using RT.Source.Vectors;
+using static System.MathF;
 
 namespace RT.Source.Rays
 {
@@ -33,7 +34,7 @@ namespace RT.Source.Rays
 
             if (discriminant >= 0)
             {
-                float sqrtD = (float)Math.Sqrt(discriminant);
+                float sqrtD = Sqrt(discriminant);
                 float t1 = (-b + sqrtD) / (2 * a);
                 float t2 = (-b - sqrtD) / (2 * a);
 

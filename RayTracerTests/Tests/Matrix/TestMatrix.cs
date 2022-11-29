@@ -2,6 +2,7 @@
 using RT.Source;
 using RT.Source.Matrices;
 using RT.Source.Vectors;
+using static System.MathF;
 
 namespace RayTracerTests
 {
@@ -401,19 +402,19 @@ namespace RayTracerTests
             Point p = new(0, 1, 0);
             Point expectedHalfQuarter = new(0, 0.707106f, 0.707106f);
 
-            Assert.AreEqual(p.RotateX(Calc.PI / 4), expectedHalfQuarter);
+            Assert.AreEqual(p.RotateX(PI / 4), expectedHalfQuarter);
 
 
             // Full quarter rotation
             Point expectedFullQuarter = new(0, 0, 1);
             
-            Assert.AreEqual(p.RotateX(Calc.PI / 2), expectedFullQuarter);
+            Assert.AreEqual(p.RotateX(PI / 2), expectedFullQuarter);
 
 
             // By an inverse
             Point expectedInversedHalfQuarter = new(0, 0.707106f, -0.707106f);
 
-            Assert.AreEqual(p.RotateX(Calc.PI / 4, inverse: true), expectedInversedHalfQuarter);
+            Assert.AreEqual(p.RotateX(PI / 4, inverse: true), expectedInversedHalfQuarter);
         }
 
         [TestMethod]
@@ -423,13 +424,13 @@ namespace RayTracerTests
             Point p = new(0, 0, 1);
             Point expectedHalfQuarter = new(0.707106f, 0, 0.707106f);
 
-            Assert.AreEqual(p.RotateY(Calc.PI / 4), expectedHalfQuarter);
+            Assert.AreEqual(p.RotateY(PI / 4), expectedHalfQuarter);
 
 
             // Full quarter rotation
             Point expectedFullQuarter = new(1, 0, 0);
 
-            Assert.AreEqual(p.RotateY(Calc.PI / 2), expectedFullQuarter);
+            Assert.AreEqual(p.RotateY(PI / 2), expectedFullQuarter);
         }
 
         [TestMethod]
@@ -439,13 +440,13 @@ namespace RayTracerTests
             Point p = new(0, 1, 0);
             Point expectedHalfQuarter = new(-0.707106f, 0.707106f, 0);
 
-            Assert.AreEqual(p.RotateZ(Calc.PI / 4), expectedHalfQuarter);
+            Assert.AreEqual(p.RotateZ(PI / 4), expectedHalfQuarter);
 
 
             // Full quarter rotation
             Point expectedFullQuarter = new(-1, 0, 0);
 
-            Assert.AreEqual(p.RotateZ(Calc.PI / 2), expectedFullQuarter);
+            Assert.AreEqual(p.RotateZ(PI / 2), expectedFullQuarter);
         }
 
         [TestMethod]
@@ -459,6 +460,50 @@ namespace RayTracerTests
             Assert.AreEqual(p.Skew(0, 0, 0, 1, 0, 0), new Point(2, 7, 4));
             Assert.AreEqual(p.Skew(0, 0, 0, 0, 1, 0), new Point(2, 3, 6));
             Assert.AreEqual(p.Skew(0, 0, 0, 0, 0, 1), new Point(2, 3, 7));
+        }
+
+        [TestMethod]
+        public void TestViewTransformation() {
+            // Setup
+            Point from, to;
+            Vector up;
+
+
+            // Default orientation
+            from = new(0, 0, 0);
+            to = new(0, 0, -1);
+            up = new(0, 1, 0);
+
+            Assert.AreEqual(Matrix.ViewTransformation(from, to, up), Matrix.Identity());
+
+
+            // Looking pozitive in Z direction
+            to = new(0, 0, 1);
+
+            Assert.AreEqual(Matrix.ViewTransformation(from, to, up), Matrix.Scaling(-1, 1, -1));
+
+
+            // Moves the world, not self
+            from = new(0, 0, 8);
+            to = new(0, 0, 0);
+
+            Assert.AreEqual(Matrix.ViewTransformation(from, to, up), Matrix.Translation(0, 0, -8));
+
+
+            // Arbitrary direction
+            from = new(1, 3, 2);
+            to = new(4, -2, 8);
+            up = new(1, 1, 0);
+
+            Matrix expected = new(new float[,]
+            {
+                { -0.50709f, 0.50709f, 0.67612f, -2.36643f },
+                { 0.76772f, 0.60609f, 0.12122f, -2.82843f },
+                { -0.35857f, 0.59761f, -0.71714f, 0 },
+                { 0, 0, 0, 1 }
+            });
+
+            Assert.AreEqual(Matrix.ViewTransformation(from, to, up), expected);
         }
 
         #endregion

@@ -5,7 +5,7 @@ using RT.Source.Materials;
 using RT.Source.Matrices;
 using RT.Source.Rays;
 using RT.Source.Vectors;
-using static System.Math;
+using static System.MathF;
 
 namespace RayTracerTests
 {
@@ -76,7 +76,7 @@ namespace RayTracerTests
 
 
             // Normal at non-axial point
-            float r3d3 = (float)(Sqrt(3) / 3);
+            float r3d3 = Sqrt(3) / 3;
             Point p4 = new(r3d3, r3d3, r3d3);
             Vector v4 = new(r3d3, r3d3, r3d3);
             Vector n = s.NormalAt(p4);
@@ -101,8 +101,8 @@ namespace RayTracerTests
             Sphere transposed = new();
             transposed.transform = transposed.transform
                 .Scale(1, 0.5f, 1)
-                .RotateZ(RT.Source.Calc.PI / 5);
-            float r2d2 = (float)(Sqrt(2) / 2);
+                .RotateZ(PI / 5);
+            float r2d2 = Sqrt(2) / 2;
             Vector n2 = transposed.NormalAt(new Point(0, r2d2, -r2d2));
             Assert.AreEqual(n2, new Vector(0, 0.97014f, -0.24254f));
         }
