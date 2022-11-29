@@ -16,6 +16,7 @@ namespace RayTracerTests
             Intersection i = new(4, s);
 
             Precomputations comps = i.PrepareComputations(r);
+
             Assert.AreEqual(comps.T, i.T);
             Assert.AreEqual(comps.figure, i.figure);
             Assert.AreEqual(comps.point, new Point(0, 0, -1));
@@ -32,6 +33,7 @@ namespace RayTracerTests
             Intersection i1 = new(4, s);
 
             Precomputations comps1 = i1.PrepareComputations(r1);
+
             Assert.IsFalse(comps1.inside);
 
 
@@ -40,6 +42,7 @@ namespace RayTracerTests
             Intersection i2 = new(1, s);
 
             Precomputations comps2 = i2.PrepareComputations(r2);
+
             Assert.AreEqual(comps2.point, new Point(0, 0, 1));
             Assert.AreEqual(comps2.eyeV, new Vector(0, 0, -1));
             Assert.IsTrue(comps2.inside);

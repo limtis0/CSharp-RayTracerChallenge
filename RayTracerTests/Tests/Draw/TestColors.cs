@@ -35,6 +35,7 @@ namespace RayTracerTests
 
             Assert.AreEqual(c1 * 2, expected1);
 
+
             // Multiply by color
             Color c2 = new(1f, 0.2f, 0.4f);
             Color c3 = new(0.9f, 1f, 0.1f);

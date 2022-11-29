@@ -47,9 +47,11 @@ namespace RayTracerTests
             Assert.AreEqual(i1[0].T, 4f);
             Assert.AreEqual(i1[1].T, 6f);
 
+
             // Assert sphere reference is saved
             Assert.AreEqual(i1[0].figure, s);
             Assert.AreEqual(i1[1].figure, s);
+
 
             // Intersect the sphere at a tangent
             Ray r2 = new(new Point(0, Sphere.Radius, -5), new Vector(0, 0, 1));
@@ -59,11 +61,13 @@ namespace RayTracerTests
             Assert.AreEqual(i2[0].T, 5f);
             Assert.AreEqual(i2[1].T, 5f);
 
+
             // Miss the sphere
             Ray r3 = new(new Point(0, Sphere.Radius * 2, -5), new Vector(0, 0, 1));
             Intersections i3 = r3.IntersectionsWith(s);
 
             Assert.AreEqual(i3.Count, 0);
+
 
             // A ray originates inside the sphere
             Ray r4 = new(s.origin, new Vector(0, 0, 1));
@@ -72,6 +76,7 @@ namespace RayTracerTests
             Assert.AreEqual(i4.Count, 2);
             Assert.AreEqual(i4[0].T, -1f);
             Assert.AreEqual(i4[1].T, 1f);
+
 
             // The sphere is behind a ray
             Ray r5 = new(new Point(0, 0, 5), new Vector(0, 0, 1));
@@ -92,6 +97,7 @@ namespace RayTracerTests
 
             Assert.AreEqual(translated.origin, new Point(4, 6, 8));
             Assert.AreEqual(translated.direction, new Vector(0, 1, 0));
+
 
             // Scaling a ray
             Matrix ms = Matrix.Scaling(2, 3, 4);

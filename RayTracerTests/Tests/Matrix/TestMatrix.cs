@@ -349,15 +349,19 @@ namespace RayTracerTests
             // Multiplying point by translation
             Point p = new(-3, 4, 5);
             Point expected = new(2, 1, 7);
+
             Assert.AreEqual(p.Translate(5, -3, 2), expected);
 
 
             // Multiplying point by an inverse of translation
             Point expectedInversed = new(-8, 7, 3);
+            
             Assert.AreEqual(p.Translate(5, -3, 2, inverse: true), expectedInversed);
+
 
             // Multiplying vector shouldn't affect it
             Vector v = new(1, 2, 3);
+            
             Assert.AreEqual(v.Translate(5, -3, 2), v);
         }
 
@@ -367,56 +371,80 @@ namespace RayTracerTests
             // Multiplying point by scaling
             Point p = new(-4, 6, 8);
             Point pExpected = new(-8, 18, 32);
+            
             Assert.AreEqual(p.Scale(2, 3, 4), pExpected);
+
 
             // Multiplying vector by scaling
             Vector v = new(-4, 6, 8);
             Vector vExpected = new(-8, 18, 32);
+            
             Assert.AreEqual(v.Scale(2, 3, 4), vExpected);
+
 
             // Multiplying by an inverse of scaling
             Vector vExpectedInversed = new(-2, 2, 2);
+            
             Assert.AreEqual(v.Scale(2, 3, 4, inverse: true), vExpectedInversed);
+
 
             // Reflecting (Scaling by opposite)
             Point refExpected = new(4, 6, 8);
+            
             Assert.AreEqual(p.Scale(-1, 1, 1), refExpected);
         }
 
         [TestMethod]
         public void TestRotationX()
         {
+            // Half quarter rotation
             Point p = new(0, 1, 0);
             Point expectedHalfQuarter = new(0, 0.707106f, 0.707106f);
+
             Assert.AreEqual(p.RotateX(Calc.PI / 4), expectedHalfQuarter);
 
+
+            // Full quarter rotation
             Point expectedFullQuarter = new(0, 0, 1);
+            
             Assert.AreEqual(p.RotateX(Calc.PI / 2), expectedFullQuarter);
+
 
             // By an inverse
             Point expectedInversedHalfQuarter = new(0, 0.707106f, -0.707106f);
+
             Assert.AreEqual(p.RotateX(Calc.PI / 4, inverse: true), expectedInversedHalfQuarter);
         }
 
         [TestMethod]
         public void TestRotationY()
         {
+            // Half quarter rotation
             Point p = new(0, 0, 1);
             Point expectedHalfQuarter = new(0.707106f, 0, 0.707106f);
+
             Assert.AreEqual(p.RotateY(Calc.PI / 4), expectedHalfQuarter);
 
+
+            // Full quarter rotation
             Point expectedFullQuarter = new(1, 0, 0);
+
             Assert.AreEqual(p.RotateY(Calc.PI / 2), expectedFullQuarter);
         }
 
         [TestMethod]
         public void TestRotationZ()
         {
+            // Half quarter rotation
             Point p = new(0, 1, 0);
             Point expectedHalfQuarter = new(-0.707106f, 0.707106f, 0);
+
             Assert.AreEqual(p.RotateZ(Calc.PI / 4), expectedHalfQuarter);
 
+
+            // Full quarter rotation
             Point expectedFullQuarter = new(-1, 0, 0);
+
             Assert.AreEqual(p.RotateZ(Calc.PI / 2), expectedFullQuarter);
         }
 

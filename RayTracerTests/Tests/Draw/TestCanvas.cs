@@ -17,6 +17,7 @@ namespace RayTracerTests
             Assert.AreEqual(h, canvas.height);
             Assert.AreEqual(w, canvas.width);
 
+
             // Every pixel is black by default
             bool isBlack = true;
             Color black = new(0, 0, 0);

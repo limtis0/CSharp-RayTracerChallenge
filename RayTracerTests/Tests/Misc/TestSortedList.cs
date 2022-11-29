@@ -10,6 +10,7 @@ namespace RayTracerTests
         [TestMethod]
         public void TestInsertion()
         {
+            // From unsorted list
             SortedList<float> list = new();
 
             list.Insert(-1.234f);
@@ -18,9 +19,13 @@ namespace RayTracerTests
             list.Insert(111f, 0.1f, 83.53f);
 
             List<float> expected = new() { -99.432f, -1.234f, 0, 0.1f, 83.53f, 111f };
+
             CollectionAssert.AreEqual(list.list, expected);
 
+
+            // From a sorted list
             SortedList<float> from_expected = new(expected);
+
             CollectionAssert.AreEqual(from_expected.list, expected);
         }
 

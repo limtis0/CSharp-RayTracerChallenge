@@ -13,21 +13,28 @@ namespace RayTracerTests
         {
             // Point
             Point p1 = new(1, 2, 3);
+
             Assert.IsTrue(p1.IsPoint());
             Assert.IsFalse(p1.IsVector());
 
+
             // Vector
             Vector v1 = new(3, 2, 1);
+
             Assert.IsFalse(v1.IsPoint());
             Assert.IsTrue(v1.IsVector());
 
+
             // Tuple (Point)
             Tuple t1 = new(4.3f, -4.2f, 3.1f, 1.0f);
+
             Assert.IsTrue(t1.IsPoint());
             Assert.IsFalse(t1.IsVector());
 
+
             // Tuple (Vector)
             Tuple t2 = new(4.3f, -4.2f, 3.1f, 0.0f);
+
             Assert.IsFalse(t2.IsPoint());
             Assert.IsTrue(t2.IsVector());
         }
@@ -52,11 +59,13 @@ namespace RayTracerTests
 
             Assert.AreEqual(p1 - p2, expected1);
 
+
             // Subtracting vector from a point
             Vector v1 = new(5, 6, 7);
             Point expected2 = new(-2, -4, -6);
 
             Assert.AreEqual(p1 - v1, expected2);
+
 
             // Subrtacting vector from vector
             Vector v2 = new(3, 2, 1);
@@ -83,8 +92,10 @@ namespace RayTracerTests
 
             Assert.AreEqual(t1 * 3.5f, expected1);
 
+
             // By fraction (x0.5)
             Tuple expected2 = new(0.5f, -1, 1.5f, -2);
+
             Assert.AreEqual(t1 * 0.5f, expected2);
         }
 
@@ -110,6 +121,7 @@ namespace RayTracerTests
             Assert.AreEqual(Vector.Magnitude(v2), expected1);
             Assert.AreEqual(Vector.Magnitude(v3), expected1);
 
+
             // Absolute values
             Vector v4 = new(1, 2, 3);
             Vector v5 = new(-1, -2, -3);
@@ -124,14 +136,20 @@ namespace RayTracerTests
         {
             Vector v1 = new(4, 0, 0);
             Vector expected1 = new(1, 0, 0);
+
             Assert.AreEqual(Vector.Normalize(v1), expected1);
 
+
+            // Divided by sqrt(14)
             Vector v2 = new(1, 2, 3);
-            Vector expected2 = new(0.26726f, 0.53452f, 0.80178f); // Divided by sqrt(14)
+            Vector expected2 = new(0.26726f, 0.53452f, 0.80178f); 
+
             Assert.AreEqual(Vector.Normalize(v2), expected2);
+
 
             // Magnitude of normalized vector is 1
             Vector norm = Vector.Normalize(v2);
+
             Assert.IsTrue(Calc.Equals(Vector.Magnitude(norm), 1));
         }
 
@@ -164,6 +182,7 @@ namespace RayTracerTests
             Vector v1 = new(1, -1, 0);
             Vector n1 = new(0, 1, 0);
             Assert.AreEqual(v1.Reflect(n1), new Vector(1, 1, 0));
+
 
             // Reflect against slanted surface
             float r2d2 = (float)(Sqrt(2) / 2);
