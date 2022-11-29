@@ -61,7 +61,7 @@
             return line.Sum(l => l.Length) + line.Count + queue.Peek()!.Length;
         }
 
-        public void ToPPM() => PictureSaver.CanvasToPPM(this);
+        public void ToPPM(string filename = "") => PictureSaver.CanvasToPPM(this, filename);
 
         #endregion
     }

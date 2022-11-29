@@ -1,9 +1,10 @@
 ﻿namespace RT.Source.Draw
 {
-    internal class PictureSaver
+    internal static class PictureSaver
     {
         public const int MaxPPMLineSize = 70;
         private const string PicturesPath = @"RayTracerChallenge\Pictures\";
+        private const string FileExtension = ".ppm";
 
         private static readonly string documentsDir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private static readonly string picturesDir = Path.Combine(documentsDir, PicturesPath);
@@ -16,12 +17,18 @@
         }
 
         // Returns unique filename, reversed for ease of searching
-        private static string NewFilePath(string extension)
+        private static string NewFilePath(string filename)
         {
-            string filename = ReverseString((DateTime.Now.Ticks - new DateTime(2016, 1, 1).Ticks).ToString("x"));
-            return Path.Combine(picturesDir, $"{filename}.{extension}");
-        }
+            // Generate filename if null
+            if (string.IsNullOrEmpty(filename))
+                filename = ReverseString((DateTime.Now.Ticks - new DateTime(2016, 1, 1).Ticks).ToString("x"));
 
+            // Add extension if needed
+            if (!filename.EndsWith(FileExtension))
+                filename = $"{filename}{FileExtension}";
+
+            return Path.Combine(picturesDir, filename);
+        }
 
         private static void WritePPMHeader(StreamWriter sw, Canvas canvas)
         {
@@ -30,17 +37,21 @@
             sw.WriteLine("255");
         }
 
-        public static void CanvasToPPM(Canvas canvas)
+        public static void CanvasToPPM(Canvas canvas, string filename = "")
         {
             Directory.CreateDirectory(picturesDir);
 
-            using StreamWriter sw = File.CreateText(NewFilePath("ppm"));
+            filename = NewFilePath(filename);
+
+            using StreamWriter sw = File.CreateText(filename);
 
             WritePPMHeader(sw, canvas);
             foreach (string s in canvas.PPMStrings())
                 sw.WriteLine(s);
 
             sw.Close();
+
+            Console.WriteLine($"Successfully saved a render to {filename}");
         }
     }
 }
