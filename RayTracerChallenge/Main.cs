@@ -1,8 +1,10 @@
-﻿using RT.Source.Draw;
-using RT.Source.Figures;
+﻿using RT.Source.World;
 using RT.Source.Light;
-using RT.Source.Rays;
 using RT.Source.Vectors;
+using RT.Source.Matrices;
+using RT.Source.Figures;
+using RT.Source.Draw;
+using static System.MathF;
 
 // DO NOT DELETE! THIS ALLOWS TESTING ON INTERNALS.
 using System.Runtime.CompilerServices;
@@ -15,58 +17,79 @@ namespace RT
     {
         private static void Main()
         {
-            // Setup of a camera (ray origin) and a "wall" to project to
-            Point rayOrigin = new(0, 0, -5);
-            const int wallZ = 10;
-            const float wallSize = 7;
-            const float halfWallSize = wallSize / 2;
+            World world = World.Instance;
 
-            // Canvas setup
-            const int canvasSize = 512;
-            const float pixelSize = wallSize / canvasSize;
-            Canvas canvas = new(canvasSize, canvasSize);
+            // Floor
+            Sphere floor = new();
+            floor.transform = Matrix.Scaling(10, 0.01f, 10);
+            floor.material.color = new Color(1, 0.9f, 0.9f);
+            floor.material.specular = 0;
+            world.figures.Add(floor);
 
-            // Sphere transformations
-            Sphere s = new();
-            s.transform = s.transform
-                .Scale(0.5f, 1, 1)
-                .RotateZ(0.52f);
-            s.material.color = new Color(0, 1f, 0.1f);
+            // Left wall
+            Sphere leftWall = new();
+            leftWall.transform = leftWall.transform
+                .Translate(0, 0, 5)
+                .RotateY(-PI / 4)
+                .RotateX(PI / 2)
+                .Scale(10, 0.01f, 10);
 
-            // Light setup
-            Point lightPosition = new(-10, 10, -10);
-            Color lightColor = new(1, 1, 1);
-            PointLight light = new(lightPosition, lightColor);
+            leftWall.material = floor.material;
+            world.figures.Add(leftWall);
 
-            for (int y = 0; y < canvasSize; y++)
-            {
-                // World Y coordinate (top = +half; bottom = -half)
-                float worldY = halfWallSize - pixelSize * y;
-                for (int x = 0; x < canvasSize; x++)
-                {
-                    // World X coordinate (left = -half; right = +half)
-                    float worldX = -halfWallSize + pixelSize * x;
+            // Right wall
+            Sphere rightWall = new();
+            rightWall.transform = rightWall.transform
+                .Translate(0, 0, 5)
+                .RotateY(PI / 4)
+                .RotateX(PI / 2)
+                .Scale(10, 0.01f, 10);
+            rightWall.material = floor.material;
+            world.figures.Add(rightWall);
 
-                    // Point for the ray to target
-                    Point position = new(worldX, worldY, wallZ);
+            // Middle sphere
+            Sphere middle = new();
+            middle.transform = Matrix.Translation(-0.5f, 1, 0.5f);
+            middle.material.color = new Color(0.1f, 1, 0.5f);
+            middle.material.diffuse = 0.7f;
+            middle.material.specular = 0.3f;
+            world.figures.Add(middle);
 
-                    Ray r = new(rayOrigin, Vector.Normalize(new Vector(position - rayOrigin)));
-                    Intersections xs = r.IntersectionsWith(s);
+            // Right sphere
+            Sphere right = new();
+            right.transform = right.transform
+                .Translate(1.5f, 0.5f, -0.5f)
+                .Scale(0.5f, 0.5f, 0.5f);
+            right.material.color = new Color(0.5f, 1, 0.1f);
+            right.material.diffuse = 0.7f;
+            right.material.specular = 0.3f;
+            world.figures.Add(right);
 
-                    Intersection? hit = xs.Hit();
-                    if (hit is not null)
-                    {
-                        Point hitPos = r.Position(hit.T);
-                        Vector normal = ((Sphere)hit.figure).NormalAt(hitPos);
-                        Vector eye = new(-r.direction);
-                        Color color = ((Sphere)hit.figure).material.Lighting(light, hitPos, eye, normal);
+            // Left sphere
+            Sphere left = new();
+            left.transform = left.transform
+                .Translate(-1.5f, 0.33f, -0.75f)
+                .Scale(0.33f, 0.33f, 0.33f);
+            left.material.color = new Color(1, 0.8f, 0.1f);
+            left.material.diffuse = 0.7f;
+            left.material.specular = 0.3f;
+            world.figures.Add(left);
 
-                        canvas.SetPixel(y, x, color);
-                    }
-                }
-            }
+            // Camera
+            Camera camera = new(768, 1024, PI / 3);
+            camera.transform = Matrix.ViewTransformation(
+                new Point(0, 1.5f, -5),
+                new Point(0, 1, 0),
+                new Vector(0, 1, 0)
+                );
 
-            canvas.ToPPM();
+            // Light
+            PointLight light = new(new Point(-10, 10, -10), new Color(1, 1, 1));
+            world.lights.Add(light);
+
+            Canvas render = camera.Render();
+
+            render.ToPPM("world");
         }
     }
 }

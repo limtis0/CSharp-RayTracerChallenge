@@ -1,4 +1,5 @@
-﻿using static System.Math;
+﻿using static System.MathF;
+using RT.Source.Vectors;
 
 namespace RT.Source.Matrices
 {
@@ -225,10 +226,10 @@ namespace RT.Source.Matrices
         public static Matrix RotationX(float rad, bool inverse = false)
         {
             Matrix m = Identity();
-            m.matrix[1, 1] = (float)Cos(rad);
-            m.matrix[1, 2] = (float)-Sin(rad);
-            m.matrix[2, 1] = (float)Sin(rad);
-            m.matrix[2, 2] = (float)Cos(rad);
+            m.matrix[1, 1] = Cos(rad);
+            m.matrix[1, 2] = -Sin(rad);
+            m.matrix[2, 1] = Sin(rad);
+            m.matrix[2, 2] = Cos(rad);
 
             return inverse ? m.Inverse() : m;
         }
@@ -236,10 +237,10 @@ namespace RT.Source.Matrices
         public static Matrix RotationY(float rad, bool inverse = false)
         {
             Matrix m = Identity();
-            m.matrix[0, 0] = (float)Cos(rad);
-            m.matrix[0, 2] = (float)Sin(rad);
-            m.matrix[2, 0] = (float)-Sin(rad);
-            m.matrix[2, 2] = (float)Cos(rad);
+            m.matrix[0, 0] = Cos(rad);
+            m.matrix[0, 2] = Sin(rad);
+            m.matrix[2, 0] = -Sin(rad);
+            m.matrix[2, 2] = Cos(rad);
 
             return inverse ? m.Inverse() : m;
         }
@@ -247,10 +248,10 @@ namespace RT.Source.Matrices
         public static Matrix RotationZ(float rad, bool inverse = false)
         {
             Matrix m = Identity();
-            m.matrix[0, 0] = (float)Cos(rad);
-            m.matrix[0, 1] = (float)-Sin(rad);
-            m.matrix[1, 0] = (float)Sin(rad);
-            m.matrix[1, 1] = (float)Cos(rad);
+            m.matrix[0, 0] = Cos(rad);
+            m.matrix[0, 1] = -Sin(rad);
+            m.matrix[1, 0] = Sin(rad);
+            m.matrix[1, 1] = Cos(rad);
 
             return inverse ? m.Inverse() : m;
         }
@@ -268,6 +269,25 @@ namespace RT.Source.Matrices
             return inverse ? m.Inverse() : m;
         }
 
+        public static Matrix ViewTransformation(Point from, Point to, Vector upDirection)
+        {
+            Vector forward = Vector.Normalize(new(to - from));
+            Vector up = Vector.Normalize(upDirection);
+            Vector left = Vector.CrossProduct(forward, up);
+            Vector trueUp = Vector.CrossProduct(left, forward);
+
+            Matrix orientation = new(new float[,]
+            {
+                { left.x, left.y, left.z, 0 },
+                { trueUp.x, trueUp.y, trueUp.z, 0 },
+                { -forward.x, -forward.y, -forward.z, 0 },
+                { 0, 0, 0, 1 }
+            });
+
+            return orientation * Translation(-from.x, -from.y, -from.z);
+        }
+
+        // TODO: Switch this and that
         public Matrix Translate(float x, float y, float z, bool inverse = false) => this * Translation(x, y, z, inverse);
 
         public Matrix Scale(float x, float y, float z, bool inverse = false) => this * Scaling(x, y, z, inverse);
