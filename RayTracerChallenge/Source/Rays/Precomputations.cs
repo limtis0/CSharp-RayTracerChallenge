@@ -3,7 +3,7 @@ using RT.Source.Vectors;
 
 namespace RT.Source.Rays
 {
-    public struct Precomputations
+    internal struct Precomputations
     {
         // Copy the intersections properties, for convenience
         public readonly float T;

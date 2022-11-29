@@ -1,7 +1,5 @@
-﻿using System.Runtime.CompilerServices;
-using static System.Math;
+﻿using static System.Math;
 
-[assembly: InternalsVisibleTo("RayTracerTests")]
 namespace RT.Source.Matrices
 {
     public class Matrix

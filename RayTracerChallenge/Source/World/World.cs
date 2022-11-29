@@ -1,12 +1,10 @@
-﻿using System.Runtime.CompilerServices;
-using RT.Source.Figures;
+﻿using RT.Source.Figures;
 using RT.Source.Light;
 using RT.Source.Materials;
 using RT.Source.Draw;
 using RT.Source.Vectors;
 using RT.Source.Rays;
 
-[assembly: InternalsVisibleTo("RayTracerTests")]
 namespace RT.Source.World
 {
     public sealed class World

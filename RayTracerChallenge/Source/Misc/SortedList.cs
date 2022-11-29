@@ -1,7 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("RayTracerTests")]
-namespace RT.Source
+﻿namespace RT.Source
 {
     public class SortedList<T> where T : IComparable<T>
     {

@@ -4,6 +4,11 @@ using RT.Source.Light;
 using RT.Source.Rays;
 using RT.Source.Vectors;
 
+// DO NOT DELETE! THIS ALLOWS TESTING ON INTERNALS.
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("RayTracerTests")]
+// DO NOT DELETE!
+
 namespace RT
 {
     class RayTracerChallenge
