@@ -53,6 +53,30 @@ namespace RT.Source.World
             return Instance;
         }
 
-        public Intersections Intersect(Ray r) => r.IntersectionsWith(figures);
+        internal Intersections Intersect(Ray r) => r.IntersectionsWith(figures);
+
+        internal Color ShadeHit(Precomputations comps)
+        {
+            Color result = new();
+            foreach (PointLight l in lights)
+                result += ShadeHitForLight(comps, l);
+
+            return result;
+        }
+
+        private static Color ShadeHitForLight(Precomputations c, PointLight l) => c.figure.material.Lighting(l, c.point, c.eyeV, c.normalV);
+
+        public Color ColorAt(Ray r)
+        {
+            Intersections xs = Intersect(r);
+            Intersection? hit = xs.Hit();
+            
+            if (hit is null)
+                return new Color();
+
+            Precomputations comps = hit.PrepareComputations(r);
+
+            return ShadeHit(comps);
+        }
     }
 }
