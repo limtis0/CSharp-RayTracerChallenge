@@ -1,7 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RT.Source.Figures;
+using RT.Source.Matrices;
 using RT.Source.Rays;
 using RT.Source.Vectors;
+using static RT.Source.Calc;
 
 namespace RayTracerTests
 {
@@ -47,6 +49,19 @@ namespace RayTracerTests
             Assert.AreEqual(comps2.eyeV, new Vector(0, 0, -1));
             Assert.IsTrue(comps2.inside);
             Assert.AreEqual(comps2.normalV, new Vector(0, 0, -1));  // Is inverted
+        }
+
+        [TestMethod]
+        public void TestPrecompsOffsetsHit()
+        {
+            Ray r = new(new Point(0, 0, -5), new Vector(0, 0, 1));
+            Sphere s = new() { transform = Matrix.Translation(0, 0, 1) };
+            Intersection i = new(5, s);
+
+            Precomputations comps = i.PrepareComputations(r);
+
+            Assert.IsTrue(comps.overPoint.z < -Epsilon / 2);
+            Assert.IsTrue(comps.point.z > comps.overPoint.z);
         }
     }
 }

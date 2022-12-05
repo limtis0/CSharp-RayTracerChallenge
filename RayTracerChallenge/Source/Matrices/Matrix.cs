@@ -287,7 +287,6 @@ namespace RT.Source.Matrices
             return orientation * Translation(-from.x, -from.y, -from.z);
         }
 
-        // TODO: Switch this and that
         public Matrix Translate(float x, float y, float z, bool inverse = false) => Translation(x, y, z, inverse) * this;
 
         public Matrix Scale(float x, float y, float z, bool inverse = false) => Scaling(x, y, z, inverse) * this;

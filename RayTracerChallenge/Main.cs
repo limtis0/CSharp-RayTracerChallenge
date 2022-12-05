@@ -75,7 +75,7 @@ namespace RT
             world.figures.Add(left);
 
             // Camera
-            Camera camera = new(768, 1024, PI / 3)
+            Camera camera = new(200, 400, PI / 3)
             {
                 transform = Matrix.ViewTransformation(
                 new Point(0, 1.5f, -7),
@@ -90,7 +90,7 @@ namespace RT
 
             Canvas render = camera.Render();
 
-            render.ToPPM("world");
+            render.ToPPM("world_shadows");
         }
     }
 }

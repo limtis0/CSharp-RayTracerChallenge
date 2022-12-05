@@ -5,6 +5,7 @@ using RT.Source.Light;
 using RT.Source.Vectors;
 using RT.Source.Draw;
 using RT.Source.Rays;
+using RT.Source.Matrices;
 
 namespace RayTracerTests
 {
@@ -65,14 +66,35 @@ namespace RayTracerTests
             i = new(0.5f, f);
 
             comps = i.PrepareComputations(r);
+
             Assert.AreEqual(w.ShadeHit(comps), new Color(0.90498f, 0.90498f, 0.90498f));
+        }
+
+        [TestMethod]
+        public void TestShadeHitInShadow()
+        {
+            World w = World.Instance;
+            
+            w.lights.Add(new PointLight(new Point(0, 0, -10), new Color(1, 1, 1)));
+
+            Sphere s = new() { transform = Matrix.Translation(0, 0, 10) };
+            w.figures.Add(new Sphere());
+            w.figures.Add(s);
+
+            Ray r = new(new Point(0, 0, 5), new Vector(0, 0, 1));
+            Intersection i = new(4, s);
+
+            Precomputations comps = i.PrepareComputations(r);
+
+            Assert.AreEqual(w.ShadeHit(comps), new Color(0.1f, 0.1f, 0.1f));
         }
 
         [TestMethod]
         public void TestColorAt()
         {
-            // Ray misses
             World w = World.DefaultWorld();
+
+            // Ray misses
             Ray r = new(new Point(0, 0, -5), new Vector(0, 1, 0));
 
             Assert.AreEqual(w.ColorAt(r), new Color(0, 0, 0));
@@ -94,6 +116,27 @@ namespace RayTracerTests
             r = new(new Point(0, 0, 0.75f), new Vector(0, 0, -1));
 
             Assert.AreEqual(w.ColorAt(r), inner.material.color);
+        }
+
+        [TestMethod]
+        public void TestIsShadowed()
+        {
+            World w = World.DefaultWorld();
+
+            // Nothing is collinear with point and light
+            Assert.IsFalse(w.IsShadowed(new Point(0, 10, 0)));
+
+
+            // Object between point and light
+            Assert.IsTrue(w.IsShadowed(new Point(10, -10, 10)));
+
+
+            // Object is behind the light
+            Assert.IsFalse(w.IsShadowed(new Point(-20, 20, -20)));
+
+
+            // Object is behind the point
+            Assert.IsFalse(w.IsShadowed(new Point(-2, 2, -2)));
         }
     }
 }

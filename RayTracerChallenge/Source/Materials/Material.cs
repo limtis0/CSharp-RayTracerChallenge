@@ -50,7 +50,7 @@ namespace RT.Source.Materials
                 throw new ArgumentOutOfRangeException(nameof(v));
         }
 
-        public Color Lighting(PointLight light, Point position, Vector eyeV, Vector normalV)
+        public Color Lighting(PointLight light, Point position, Vector eyeV, Vector normalV, bool inShadow = false)
         {
             Color colAmbient;
             Color colDiffuse;
@@ -64,6 +64,8 @@ namespace RT.Source.Materials
 
             // Compute the ambient contribution
             colAmbient = effectiveColor * ambient;
+
+            if (inShadow) { return colAmbient; }
 
             // Compute a cosine of the angle between the
             // lightV and normalV. A negative numbers means the

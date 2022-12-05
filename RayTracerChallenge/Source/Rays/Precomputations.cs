@@ -1,9 +1,10 @@
 ﻿using RT.Source.Figures;
 using RT.Source.Vectors;
+using static RT.Source.Calc;
 
 namespace RT.Source.Rays
 {
-    internal struct Precomputations
+    internal readonly struct Precomputations
     {
         // Copy the intersections properties, for convenience
         public readonly float T;
@@ -14,6 +15,7 @@ namespace RT.Source.Rays
         public readonly Vector eyeV;
         public readonly Vector normalV;
         public readonly bool inside;  // Is intersection inside of an object
+        public readonly Point overPoint;  // Offsetting point slightly, for shadows
 
         public Precomputations(Intersection i, Ray r)
         {
@@ -27,6 +29,8 @@ namespace RT.Source.Rays
             inside = Vector.DotProduct(normalV, eyeV) < 0;
             if (inside)
                 normalV = new(-normalV);
+
+            overPoint = new(point + normalV * Epsilon);
         }
     }
 }

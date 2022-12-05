@@ -68,5 +68,20 @@ namespace RayTracerTests
 
             Assert.AreEqual(result5, new Color(0.1f, 0.1f, 0.1f));
         }
+
+        [TestMethod]
+        public void TestLightingInShadow()
+        {
+            Material m = new();
+            Point position = new(0, 0, 0);
+
+            Vector eyeV = new(0, 0, -1);
+            Vector normalV = new(0, 0, -1);
+            PointLight light = new(new Point(0, 0, -10), new Color(1, 1, 1));
+            bool inShadow = true;
+
+            Color result = m.Lighting(light, position, eyeV, normalV, inShadow);
+            Assert.AreEqual(result, new Color(0.1f, 0.1f, 0.1f));
+        }
     }
 }
