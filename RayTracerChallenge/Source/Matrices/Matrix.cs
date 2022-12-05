@@ -288,18 +288,18 @@ namespace RT.Source.Matrices
         }
 
         // TODO: Switch this and that
-        public Matrix Translate(float x, float y, float z, bool inverse = false) => this * Translation(x, y, z, inverse);
+        public Matrix Translate(float x, float y, float z, bool inverse = false) => Translation(x, y, z, inverse) * this;
 
-        public Matrix Scale(float x, float y, float z, bool inverse = false) => this * Scaling(x, y, z, inverse);
+        public Matrix Scale(float x, float y, float z, bool inverse = false) => Scaling(x, y, z, inverse) * this;
 
-        public Matrix RotateX(float rad, bool inverse = false) => this * RotationX(rad, inverse);
+        public Matrix RotateX(float rad, bool inverse = false) => RotationX(rad, inverse) * this;
 
-        public Matrix RotateY(float rad, bool inverse = false) => this * RotationY(rad, inverse);
+        public Matrix RotateY(float rad, bool inverse = false) => RotationY(rad, inverse) * this;
 
-        public Matrix RotateZ(float rad, bool inverse = false) => this * RotationZ(rad, inverse);
+        public Matrix RotateZ(float rad, bool inverse = false) => RotationZ(rad, inverse) * this;
 
         public Matrix Skew(float xy, float xz, float yx, float yz, float zx, float zy, bool inverse = false)
-            => this * Skewing(xy, xz, yx, yz, zx, zy, inverse);
+            => Skewing(xy, xz, yx, yz, zx, zy, inverse) * this;
 
         #endregion
     }

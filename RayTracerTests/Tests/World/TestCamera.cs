@@ -61,7 +61,7 @@ namespace RayTracerTests
 
             // With transformed camera
             float r2d2 = Sqrt(2) / 2;
-            c.transform = c.transform.RotateY(PI / 4).Translate(0, -2, 5);
+            c.transform = c.transform.Translate(0, -2, 5).RotateY(PI / 4);
             r = c.RayForPixel(50, 100);
 
             Assert.AreEqual(r.origin, new Point(0, 2, -5));

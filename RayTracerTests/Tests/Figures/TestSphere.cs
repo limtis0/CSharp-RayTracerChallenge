@@ -100,8 +100,8 @@ namespace RayTracerTests
             // Normal on a transformed sphere
             Sphere transposed = new();
             transposed.transform = transposed.transform
-                .Scale(1, 0.5f, 1)
-                .RotateZ(PI / 5);
+                .RotateZ(PI / 5)
+                .Scale(1, 0.5f, 1);
             float r2d2 = Sqrt(2) / 2;
             Vector n2 = transposed.NormalAt(new Point(0, r2d2, -r2d2));
             Assert.AreEqual(n2, new Vector(0, 0.97014f, -0.24254f));

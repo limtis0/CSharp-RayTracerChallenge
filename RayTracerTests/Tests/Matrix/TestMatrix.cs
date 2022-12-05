@@ -96,8 +96,8 @@ namespace RayTracerTests
                 {0, 0, 0, 1}
             });
 
-            RT.Source.Vectors.Tuple t = new(1, 2, 3, 1);
-            RT.Source.Vectors.Tuple expected = new(18, 24, 33, 1);
+            Tuple t = new(1, 2, 3, 1);
+            Tuple expected = new(18, 24, 33, 1);
 
             Assert.AreEqual(m * t, expected);
         }
@@ -114,7 +114,7 @@ namespace RayTracerTests
             });
             Assert.AreEqual(m * Matrix.Identity(4), m);
 
-            RT.Source.Vectors.Tuple t = new(1, 2, 3, 1);
+            Tuple t = new(1, 2, 3, 1);
             Assert.AreEqual(Matrix.Identity(4) * t, t);
         }
 
