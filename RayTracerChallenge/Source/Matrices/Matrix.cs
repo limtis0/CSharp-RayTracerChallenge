@@ -1,4 +1,4 @@
-﻿using static System.MathF;
+﻿using static System.Math;
 using RT.Source.Vectors;
 
 namespace RT.Source.Matrices
@@ -7,7 +7,7 @@ namespace RT.Source.Matrices
     {
         private const int STDSize = 4;
 
-        public readonly float[,] matrix;
+        public readonly double[,] matrix;
         private readonly int width;
         private readonly int height;
 
@@ -18,7 +18,7 @@ namespace RT.Source.Matrices
         {
             height = STDSize;
             width = STDSize;
-            matrix = new float[width, height];
+            matrix = new double[width, height];
         }
 
         // Init with zeros
@@ -26,10 +26,10 @@ namespace RT.Source.Matrices
         {
             this.height = height;
             this.width = width;
-            matrix = new float[height, width];
+            matrix = new double[height, width];
         }
 
-        public Matrix(float[,] matrix)
+        public Matrix(double[,] matrix)
         {
             this.matrix = matrix;
             height = matrix.GetLength(0);
@@ -97,7 +97,7 @@ namespace RT.Source.Matrices
 
         public static Vectors.Tuple operator *(Matrix m, Vectors.Tuple t)
         {
-            Matrix tuple_matrix = new(new float[,] { { t.x }, { t.y }, { t.z }, { t.w } });
+            Matrix tuple_matrix = new(new double[,] { { t.x }, { t.y }, { t.z }, { t.w } });
             Matrix mult = m * tuple_matrix;
 
             return new Vectors.Tuple(mult.matrix[0, 0], mult.matrix[1, 0], mult.matrix[2, 0], mult.matrix[3, 0]);
@@ -156,10 +156,10 @@ namespace RT.Source.Matrices
             return m;
         }
 
-        internal float Minor(int removeRow, int removeCol) => Submatrix(removeRow, removeCol).Determinant();
+        internal double Minor(int removeRow, int removeCol) => Submatrix(removeRow, removeCol).Determinant();
 
         // Negate if removeRow + removeCol is odd
-        internal float Cofactor(int removeRow, int removeCol) => Minor(removeRow, removeCol) * (((removeRow + removeCol) % 2 == 0) ? 1 : -1);
+        internal double Cofactor(int removeRow, int removeCol) => Minor(removeRow, removeCol) * (((removeRow + removeCol) % 2 == 0) ? 1 : -1);
 
         private void AssertIsSquareMatrix()
         {
@@ -167,7 +167,7 @@ namespace RT.Source.Matrices
                 throw new ArgumentException($"Matrix is not square: width {width} != height {height}");
         }
 
-        internal float Determinant()
+        internal double Determinant()
         {
             AssertIsSquareMatrix();
 
@@ -176,7 +176,7 @@ namespace RT.Source.Matrices
                 return (matrix[0, 0] * matrix[1, 1]) - (matrix[0, 1] * matrix[1, 0]);
 
             // Bigger than 2x2
-            float det = 0;
+            double det = 0;
             for (int col = 0; col < width; col++)
                 det += matrix[0, col] * Cofactor(0, col);
 
@@ -185,7 +185,7 @@ namespace RT.Source.Matrices
 
         public Matrix Inverse()
         {
-            float det = Determinant();
+            double det = Determinant();
 
             if (det == 0)
                 throw new ArgumentException("Matrix is not inversible: Determinant == 0");
@@ -203,7 +203,7 @@ namespace RT.Source.Matrices
 
         #region Transformations
 
-        public static Matrix Translation(float x, float y, float z, bool inverse = false)
+        public static Matrix Translation(double x, double y, double z, bool inverse = false)
         {
             Matrix m = Identity();
             m.matrix[0, 3] = x;
@@ -213,7 +213,7 @@ namespace RT.Source.Matrices
             return inverse ? m.Inverse() : m;
         }
 
-        public static Matrix Scaling(float x, float y, float z, bool inverse = false)
+        public static Matrix Scaling(double x, double y, double z, bool inverse = false)
         {
             Matrix m = Identity();
             m.matrix[0, 0] = x;
@@ -223,7 +223,7 @@ namespace RT.Source.Matrices
             return inverse ? m.Inverse() : m;
         }
 
-        public static Matrix RotationX(float rad, bool inverse = false)
+        public static Matrix RotationX(double rad, bool inverse = false)
         {
             Matrix m = Identity();
             m.matrix[1, 1] = Cos(rad);
@@ -234,7 +234,7 @@ namespace RT.Source.Matrices
             return inverse ? m.Inverse() : m;
         }
 
-        public static Matrix RotationY(float rad, bool inverse = false)
+        public static Matrix RotationY(double rad, bool inverse = false)
         {
             Matrix m = Identity();
             m.matrix[0, 0] = Cos(rad);
@@ -245,7 +245,7 @@ namespace RT.Source.Matrices
             return inverse ? m.Inverse() : m;
         }
 
-        public static Matrix RotationZ(float rad, bool inverse = false)
+        public static Matrix RotationZ(double rad, bool inverse = false)
         {
             Matrix m = Identity();
             m.matrix[0, 0] = Cos(rad);
@@ -256,7 +256,7 @@ namespace RT.Source.Matrices
             return inverse ? m.Inverse() : m;
         }
 
-        public static Matrix Skewing(float xy, float xz, float yx, float yz, float zx, float zy, bool inverse = false)
+        public static Matrix Skewing(double xy, double xz, double yx, double yz, double zx, double zy, bool inverse = false)
         {
             Matrix m = Identity();
             m.matrix[0, 1] = xy;
@@ -276,7 +276,7 @@ namespace RT.Source.Matrices
             Vector left = Vector.CrossProduct(forward, up);
             Vector trueUp = Vector.CrossProduct(left, forward);
 
-            Matrix orientation = new(new float[,]
+            Matrix orientation = new(new double[,]
             {
                 { left.x, left.y, left.z, 0 },
                 { trueUp.x, trueUp.y, trueUp.z, 0 },
@@ -287,17 +287,17 @@ namespace RT.Source.Matrices
             return orientation * Translation(-from.x, -from.y, -from.z);
         }
 
-        public Matrix Translate(float x, float y, float z, bool inverse = false) => Translation(x, y, z, inverse) * this;
+        public Matrix Translate(double x, double y, double z, bool inverse = false) => Translation(x, y, z, inverse) * this;
 
-        public Matrix Scale(float x, float y, float z, bool inverse = false) => Scaling(x, y, z, inverse) * this;
+        public Matrix Scale(double x, double y, double z, bool inverse = false) => Scaling(x, y, z, inverse) * this;
 
-        public Matrix RotateX(float rad, bool inverse = false) => RotationX(rad, inverse) * this;
+        public Matrix RotateX(double rad, bool inverse = false) => RotationX(rad, inverse) * this;
 
-        public Matrix RotateY(float rad, bool inverse = false) => RotationY(rad, inverse) * this;
+        public Matrix RotateY(double rad, bool inverse = false) => RotationY(rad, inverse) * this;
 
-        public Matrix RotateZ(float rad, bool inverse = false) => RotationZ(rad, inverse) * this;
+        public Matrix RotateZ(double rad, bool inverse = false) => RotationZ(rad, inverse) * this;
 
-        public Matrix Skew(float xy, float xz, float yx, float yz, float zx, float zy, bool inverse = false)
+        public Matrix Skew(double xy, double xz, double yx, double yz, double zx, double zy, bool inverse = false)
             => Skewing(xy, xz, yx, yz, zx, zy, inverse) * this;
 
         #endregion

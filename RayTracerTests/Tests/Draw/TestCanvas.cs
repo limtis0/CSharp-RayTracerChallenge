@@ -46,7 +46,7 @@ namespace RayTracerTests
         public void TestPPMLines()
         {
             Canvas canvas = new(2, 10);
-            Color color = new(1f, 0.8f, 0.6f);
+            Color color = new(1, 0.8, 0.6);
             for (int row = 0; row < canvas.height; row++)
                 for (int col = 0; col < canvas.width; col++)
                     canvas.SetPixel(row, col, color);

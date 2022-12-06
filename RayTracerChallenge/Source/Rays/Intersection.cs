@@ -4,10 +4,10 @@ namespace RT.Source.Rays
 {
     public class Intersection : IComparable<Intersection>
     {
-        public readonly float T;
+        public readonly double T;
         public readonly Figure figure;
 
-        public Intersection(float T, Figure figure)
+        public Intersection(double T, Figure figure)
         {
             this.T = T;
             this.figure = figure;

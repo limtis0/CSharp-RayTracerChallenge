@@ -1,11 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RT.Source.World;
+using RT.Source.Draw;
 using RT.Source.Figures;
 using RT.Source.Light;
-using RT.Source.Vectors;
-using RT.Source.Draw;
-using RT.Source.Rays;
 using RT.Source.Matrices;
+using RT.Source.Rays;
+using RT.Source.Vectors;
+using RT.Source.World;
 
 namespace RayTracerTests
 {
@@ -35,13 +35,13 @@ namespace RayTracerTests
         {
             World world = World.DefaultWorld();
             Ray ray = new(new Point(0, 0, -5), new Vector(0, 0, 1));
-            
+
             Intersections xs = world.Intersect(ray);
 
             Assert.AreEqual(xs.Count, 4);
             Assert.AreEqual(xs[0].T, 4);
-            Assert.AreEqual(xs[1].T, 4.5f);
-            Assert.AreEqual(xs[2].T, 5.5f);
+            Assert.AreEqual(xs[1].T, 4.5);
+            Assert.AreEqual(xs[2].T, 5.5);
             Assert.AreEqual(xs[3].T, 6);
         }
 
@@ -56,25 +56,25 @@ namespace RayTracerTests
 
             Precomputations comps = i.PrepareComputations(r);
 
-            Assert.AreEqual(w.ShadeHit(comps), new Color(0.38066f, 0.47583f, 0.2855f));
+            Assert.AreEqual(w.ShadeHit(comps), new Color(0.38066, 0.47583, 0.2855));
 
 
             // Shading an intersection from inside
-            w.lights = new() { new PointLight(new Point(0, 0.25f, 0), new Color(1, 1, 1)) };
+            w.lights = new() { new PointLight(new Point(0, 0.25, 0), new Color(1, 1, 1)) };
             r = new(new Point(0, 0, 0), new Vector(0, 0, 1));
             f = w.figures[1];
-            i = new(0.5f, f);
+            i = new(0.5, f);
 
             comps = i.PrepareComputations(r);
 
-            Assert.AreEqual(w.ShadeHit(comps), new Color(0.90498f, 0.90498f, 0.90498f));
+            Assert.AreEqual(w.ShadeHit(comps), new Color(0.90498, 0.90498, 0.90498));
         }
 
         [TestMethod]
         public void TestShadeHitInShadow()
         {
             World w = World.Instance;
-            
+
             w.lights.Add(new PointLight(new Point(0, 0, -10), new Color(1, 1, 1)));
 
             Sphere s = new() { transform = Matrix.Translation(0, 0, 10) };
@@ -86,7 +86,7 @@ namespace RayTracerTests
 
             Precomputations comps = i.PrepareComputations(r);
 
-            Assert.AreEqual(w.ShadeHit(comps), new Color(0.1f, 0.1f, 0.1f));
+            Assert.AreEqual(w.ShadeHit(comps), new Color(0.1, 0.1, 0.1));
         }
 
         [TestMethod]
@@ -103,7 +103,7 @@ namespace RayTracerTests
             // Ray hits
             r = new(new Point(0, 0, -5), new Vector(0, 0, 1));
 
-            Assert.AreEqual(w.ColorAt(r), new Color(0.38066f, 0.47583f, 0.2855f));
+            Assert.AreEqual(w.ColorAt(r), new Color(0.38066, 0.47583, 0.2855));
 
 
             // Intersection is behind the ray
@@ -113,7 +113,7 @@ namespace RayTracerTests
             Figure inner = w.figures[1];
             inner.material.ambient = 1;
 
-            r = new(new Point(0, 0, 0.75f), new Vector(0, 0, -1));
+            r = new(new Point(0, 0, 0.75), new Vector(0, 0, -1));
 
             Assert.AreEqual(w.ColorAt(r), inner.material.color);
         }

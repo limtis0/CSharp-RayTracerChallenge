@@ -7,7 +7,7 @@ namespace RT.Source.Rays
     internal readonly struct Precomputations
     {
         // Copy the intersections properties, for convenience
-        public readonly float T;
+        public readonly double T;
         public readonly Figure figure;
 
         // Precomputed values

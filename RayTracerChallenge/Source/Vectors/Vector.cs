@@ -1,10 +1,10 @@
-﻿using static System.MathF;
+﻿using static System.Math;
 
 namespace RT.Source.Vectors
 {
     public class Vector : Tuple
     {
-        public Vector(float x, float y, float z) : base(x, y, z)
+        public Vector(double x, double y, double z) : base(x, y, z)
         {
             this.x = x;
             this.y = y;
@@ -25,17 +25,17 @@ namespace RT.Source.Vectors
         }
 
         // Basically vector distance
-        public static float Magnitude(Vector v) => Sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+        public static double Magnitude(Vector v) => Sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 
         // Returns vector with magnitude == 1
         public static Vector Normalize(Vector v)
         {
-            float magn = Magnitude(v);
+            double magn = Magnitude(v);
             return new Vector(v.x / magn, v.y / magn, v.z / magn);
         }
 
         // Has values between -1 to 1; Lower the value - bigger the angle between vectors
-        public static float DotProduct(Vector a, Vector b) => a.x * b.x + a.y * b.y + a.z * b.z;
+        public static double DotProduct(Vector a, Vector b) => a.x * b.x + a.y * b.y + a.z * b.z;
 
         // Returns a vector, perpendicular to both A and B vectors; Order matters!
         public static Vector CrossProduct(Vector a, Vector b)

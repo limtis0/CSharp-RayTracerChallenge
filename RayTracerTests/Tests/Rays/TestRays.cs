@@ -30,7 +30,7 @@ namespace RayTracerTests
             Assert.AreEqual(ray.Position(0), origin);
             Assert.AreEqual(ray.Position(1), new Point(3, 3, 4));
             Assert.AreEqual(ray.Position(-1), new Point(1, 3, 4));
-            Assert.AreEqual(ray.Position(2.5f), new Point(4.5f, 3, 4));
+            Assert.AreEqual(ray.Position(2.5), new Point(4.5, 3, 4));
         }
 
         [TestMethod]
@@ -44,8 +44,8 @@ namespace RayTracerTests
             Intersections i1 = r1.IntersectionsWith(s);
 
             Assert.AreEqual(i1.Count, 2);
-            Assert.AreEqual(i1[0].T, 4f);
-            Assert.AreEqual(i1[1].T, 6f);
+            Assert.AreEqual(i1[0].T, 4);
+            Assert.AreEqual(i1[1].T, 6);
 
 
             // Assert sphere reference is saved
@@ -58,8 +58,8 @@ namespace RayTracerTests
             Intersections i2 = r2.IntersectionsWith(s);
 
             Assert.AreEqual(i2.Count, 2);
-            Assert.AreEqual(i2[0].T, 5f);
-            Assert.AreEqual(i2[1].T, 5f);
+            Assert.AreEqual(i2[0].T, 5);
+            Assert.AreEqual(i2[1].T, 5);
 
 
             // Miss the sphere
@@ -74,8 +74,8 @@ namespace RayTracerTests
             Intersections i4 = r4.IntersectionsWith(s);
 
             Assert.AreEqual(i4.Count, 2);
-            Assert.AreEqual(i4[0].T, -1f);
-            Assert.AreEqual(i4[1].T, 1f);
+            Assert.AreEqual(i4[0].T, -1);
+            Assert.AreEqual(i4[1].T, 1);
 
 
             // The sphere is behind a ray
@@ -83,8 +83,8 @@ namespace RayTracerTests
             Intersections i5 = r5.IntersectionsWith(s);
 
             Assert.AreEqual(i5.Count, 2);
-            Assert.AreEqual(i5[0].T, -6f);
-            Assert.AreEqual(i5[1].T, -4f);
+            Assert.AreEqual(i5[0].T, -6);
+            Assert.AreEqual(i5[1].T, -4);
         }
 
         [TestMethod]

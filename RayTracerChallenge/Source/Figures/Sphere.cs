@@ -6,7 +6,7 @@ namespace RT.Source.Figures
 {
     public class Sphere : Figure
     {
-        public const float Radius = 1f;
+        public const double Radius = 1;
 
         public Sphere()
         {

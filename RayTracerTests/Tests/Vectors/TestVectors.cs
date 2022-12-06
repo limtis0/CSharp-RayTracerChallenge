@@ -1,7 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RT.Source;
 using RT.Source.Vectors;
-using static System.MathF;
+using static System.Math;
 
 namespace RayTracerTests
 {
@@ -26,14 +26,14 @@ namespace RayTracerTests
 
 
             // Tuple (Point)
-            Tuple t1 = new(4.3f, -4.2f, 3.1f, 1.0f);
+            Tuple t1 = new(4.3, -4.2, 3.1, 1.0);
 
             Assert.IsTrue(t1.IsPoint());
             Assert.IsFalse(t1.IsVector());
 
 
             // Tuple (Vector)
-            Tuple t2 = new(4.3f, -4.2f, 3.1f, 0.0f);
+            Tuple t2 = new(4.3, -4.2, 3.1, 0.0);
 
             Assert.IsFalse(t2.IsPoint());
             Assert.IsTrue(t2.IsVector());
@@ -88,22 +88,22 @@ namespace RayTracerTests
         {
             // By scalar (x2)
             Tuple t1 = new(1, -2, 3, -4);
-            Tuple expected1 = new(3.5f, -7, 10.5f, -14);
+            Tuple expected1 = new(3.5, -7, 10.5, -14);
 
-            Assert.AreEqual(t1 * 3.5f, expected1);
+            Assert.AreEqual(t1 * 3.5, expected1);
 
 
             // By fraction (x0.5)
-            Tuple expected2 = new(0.5f, -1, 1.5f, -2);
+            Tuple expected2 = new(0.5, -1, 1.5, -2);
 
-            Assert.AreEqual(t1 * 0.5f, expected2);
+            Assert.AreEqual(t1 * 0.5, expected2);
         }
 
         [TestMethod]
         public void TestScalarDivision()
         {
             Tuple t1 = new(1, -2, 3, -4);
-            Tuple expected = new(0.5f, -1, 1.5f, -2);
+            Tuple expected = new(0.5, -1, 1.5, -2);
 
             Assert.AreEqual(t1 / 2, expected);
         }
@@ -115,7 +115,7 @@ namespace RayTracerTests
             Vector v1 = new(1, 0, 0);
             Vector v2 = new(0, 1, 0);
             Vector v3 = new(0, 0, 1);
-            float expected1 = 1;
+            double expected1 = 1;
 
             Assert.AreEqual(Vector.Magnitude(v1), expected1);
             Assert.AreEqual(Vector.Magnitude(v2), expected1);
@@ -125,7 +125,7 @@ namespace RayTracerTests
             // Absolute values
             Vector v4 = new(1, 2, 3);
             Vector v5 = new(-1, -2, -3);
-            float expected2 = Sqrt(14);
+            double expected2 = Sqrt(14);
 
             Assert.AreEqual(Vector.Magnitude(v4), expected2);
             Assert.AreEqual(Vector.Magnitude(v5), expected2);
@@ -142,7 +142,7 @@ namespace RayTracerTests
 
             // Divided by sqrt(14)
             Vector v2 = new(1, 2, 3);
-            Vector expected2 = new(0.26726f, 0.53452f, 0.80178f); 
+            Vector expected2 = new(0.26726, 0.53452, 0.80178); 
 
             Assert.AreEqual(Vector.Normalize(v2), expected2);
 
@@ -158,7 +158,7 @@ namespace RayTracerTests
         {
             Vector v1 = new(1, 2, 3);
             Vector v2 = new(2, 3, 4);
-            float expected = 20;
+            double expected = 20;
 
             Assert.AreEqual(Vector.DotProduct(v1, v2), expected);
         }
@@ -185,7 +185,7 @@ namespace RayTracerTests
 
 
             // Reflect against slanted surface
-            float r2d2 = (float)(Sqrt(2) / 2);
+            double r2d2 = Sqrt(2) / 2;
             Vector v2 = new(0, -1, 0);
             Vector n2 = new(r2d2, r2d2, 0);
             Assert.AreEqual(v2.Reflect(n2), new Vector(1, 0, 0));

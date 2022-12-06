@@ -11,20 +11,20 @@ namespace RayTracerTests
         public void TestInsertion()
         {
             // From unsorted list
-            SortedList<float> list = new();
+            SortedList<double> list = new();
 
-            list.Insert(-1.234f);
+            list.Insert(-1.234);
             list.Insert(0);
-            list.Insert(-99.432f);
-            list.Insert(111f, 0.1f, 83.53f);
+            list.Insert(-99.432);
+            list.Insert(111, 0.1, 83.53);
 
-            List<float> expected = new() { -99.432f, -1.234f, 0, 0.1f, 83.53f, 111f };
+            List<double> expected = new() { -99.432, -1.234, 0, 0.1, 83.53, 111 };
 
             CollectionAssert.AreEqual(list.list, expected);
 
 
             // From a sorted list
-            SortedList<float> from_expected = new(expected);
+            SortedList<double> from_expected = new(expected);
 
             CollectionAssert.AreEqual(from_expected.list, expected);
         }

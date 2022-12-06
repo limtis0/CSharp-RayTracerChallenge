@@ -2,30 +2,30 @@
 using RT.Source.Rays;
 using RT.Source.Vectors;
 using RT.Source.Draw;
-using static System.MathF;
+using static System.Math;
 
 namespace RT.Source.World
 {
     // TODO: CameraView struct, CameraPosition struct
     public class Camera
     {
-        const float HalfPixel = 0.5f;
+        const double HalfPixel = 0.5;
         private readonly World world = World.Instance;
 
         // Input values
         public readonly int canvasHeight;
         public readonly int canvasWidth;
-        public readonly float fov;
+        public readonly double fov;
         public Matrix transform;
 
         // Calculated values
-        private float halfHeight;
-        private float halfWidth;
-        public readonly float pixelSize;
+        private double halfHeight;
+        private double halfWidth;
+        public readonly double pixelSize;
 
         #region Constructors
 
-        public Camera(int canvasHeight, int canvasWidth, float fov, Matrix? transform = null)
+        public Camera(int canvasHeight, int canvasWidth, double fov, Matrix? transform = null)
         {
             this.canvasHeight = canvasHeight;
             this.canvasWidth = canvasWidth;
@@ -39,8 +39,8 @@ namespace RT.Source.World
 
         private void SetHalfCanvas()
         {
-            float halfView = Tan(fov / 2);
-            float aspectRatio = (float) canvasHeight / canvasWidth;
+            double halfView = Tan(fov / 2);
+            double aspectRatio = (double) canvasHeight / canvasWidth;
 
             if (aspectRatio >= 1)
             {
@@ -54,7 +54,7 @@ namespace RT.Source.World
             }
         }
 
-        private float GetPixelSize() => halfWidth * 2 / canvasHeight;
+        private double GetPixelSize() => halfWidth * 2 / canvasHeight;
 
         #endregion
 
@@ -63,13 +63,13 @@ namespace RT.Source.World
         internal Ray RayForPixel(int row, int col)
         {
             // Offset from the edge of the canvas to the pixel's center
-            float hOffset = (row + HalfPixel) * pixelSize;
-            float wOffset = (col + HalfPixel) * pixelSize;
+            double hOffset = (row + HalfPixel) * pixelSize;
+            double wOffset = (col + HalfPixel) * pixelSize;
 
             // Untransformed coordinates of the pixel in world space
             // Camera is looking towards -Z
-            float worldH = halfHeight - hOffset;
-            float worldW = halfWidth - wOffset;
+            double worldH = halfHeight - hOffset;
+            double worldW = halfWidth - wOffset;
 
             // Transform using camera matrix
             Matrix invTransform = transform.Inverse();

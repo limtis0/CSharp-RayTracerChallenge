@@ -5,7 +5,7 @@ using RT.Source.Materials;
 using RT.Source.Matrices;
 using RT.Source.Rays;
 using RT.Source.Vectors;
-using static System.MathF;
+using static System.Math;
 
 namespace RayTracerTests
 {
@@ -76,7 +76,7 @@ namespace RayTracerTests
 
 
             // Normal at non-axial point
-            float r3d3 = Sqrt(3) / 3;
+            double r3d3 = Sqrt(3) / 3;
             Point p4 = new(r3d3, r3d3, r3d3);
             Vector v4 = new(r3d3, r3d3, r3d3);
             Vector n = s.NormalAt(p4);
@@ -94,17 +94,17 @@ namespace RayTracerTests
             // Normal on a translated sphere
             Sphere translated = new();
             translated.transform = translated.transform.Translate(0, 1, 0);
-            Vector n1 = translated.NormalAt(new Point(0, 1.70711f, -0.70711f));
-            Assert.AreEqual(n1, new Vector(0, 0.70711f, -0.70711f));
+            Vector n1 = translated.NormalAt(new Point(0, 1.70711, -0.70711));
+            Assert.AreEqual(n1, new Vector(0, 0.70711, -0.70711));
 
             // Normal on a transformed sphere
             Sphere transposed = new();
             transposed.transform = transposed.transform
                 .RotateZ(PI / 5)
-                .Scale(1, 0.5f, 1);
-            float r2d2 = Sqrt(2) / 2;
+                .Scale(1, 0.5, 1);
+            double r2d2 = Sqrt(2) / 2;
             Vector n2 = transposed.NormalAt(new Point(0, r2d2, -r2d2));
-            Assert.AreEqual(n2, new Vector(0, 0.97014f, -0.24254f));
+            Assert.AreEqual(n2, new Vector(0, 0.97014, -0.24254));
         }
 
         [TestMethod]
@@ -117,7 +117,7 @@ namespace RayTracerTests
 
 
             // Sphere's materials can be changed
-            Material m = new(new Color(1, 1, 1), 0.7f, 0.9f, 0.2f, 60f);
+            Material m = new(new Color(1, 1, 1), 0.7, 0.9, 0.2, 60);
             s.material = m;
 
             Assert.AreEqual(s.material, m);

@@ -52,7 +52,7 @@
 
         private void FillPixelQueuePPM(Queue<string> queue, int height, int width)
         {
-            foreach (string rgbValue in GetPixel(height, width).ToString().Split())
+            foreach (string rgbValue in GetPixel(height, width).ToRGB().Split())
                 queue.Enqueue(rgbValue);
         }
 

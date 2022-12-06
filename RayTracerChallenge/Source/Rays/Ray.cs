@@ -1,7 +1,7 @@
 ﻿using RT.Source.Figures;
 using RT.Source.Matrices;
 using RT.Source.Vectors;
-using static System.MathF;
+using static System.Math;
 
 namespace RT.Source.Rays
 {
@@ -16,7 +16,7 @@ namespace RT.Source.Rays
             this.direction = direction;
         }
 
-        public Point Position(float t) => new(origin + direction * t);
+        public Point Position(double t) => new(origin + direction * t);
 
         #region Intersections
 
@@ -27,16 +27,16 @@ namespace RT.Source.Rays
             // Find discriminant
             Vector shape_to_ray = new(invRay.origin - shape.origin);
 
-            float a = Vector.DotProduct(invRay.direction, invRay.direction);
-            float b = 2 * Vector.DotProduct(invRay.direction, shape_to_ray);
-            float c = Vector.DotProduct(shape_to_ray, shape_to_ray) - 1;
-            float discriminant = b * b - 4 * a * c;
+            double a = Vector.DotProduct(invRay.direction, invRay.direction);
+            double b = 2 * Vector.DotProduct(invRay.direction, shape_to_ray);
+            double c = Vector.DotProduct(shape_to_ray, shape_to_ray) - 1;
+            double discriminant = b * b - 4 * a * c;
 
             if (discriminant >= 0)
             {
-                float sqrtD = Sqrt(discriminant);
-                float t1 = (-b + sqrtD) / (2 * a);
-                float t2 = (-b - sqrtD) / (2 * a);
+                double sqrtD = Sqrt(discriminant);
+                double t1 = (-b + sqrtD) / (2 * a);
+                double t2 = (-b - sqrtD) / (2 * a);
 
                 return (new Intersection(t1, shape), new Intersection(t2, shape));
             }

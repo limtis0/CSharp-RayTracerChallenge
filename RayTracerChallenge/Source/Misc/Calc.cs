@@ -2,8 +2,8 @@
 {
     public static class Calc
     {
-        public const float Epsilon = 0.00001f;
+        public const double Epsilon = 0.00001;
 
-        public static bool Equals(float a, float b) => Math.Abs(a - b) < Epsilon;
+        public static bool Equals(double a, double b) => Math.Abs(a - b) < Epsilon;
     }
 }

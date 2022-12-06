@@ -36,14 +36,14 @@ namespace RT.Source.World
             Sphere sphere1 = new()
             {
                 material = new Material(
-                new Color(0.8f, 1f, 0.6f),
-                diffuse: 0.7f,
-                specular: 0.2f
+                new Color(0.8, 1, 0.6),
+                diffuse: 0.7,
+                specular: 0.2
             )
             };
 
             Sphere sphere2 = new();
-            sphere2.transform = sphere2.transform.Scale(0.5f, 0.5f, 0.5f);
+            sphere2.transform = sphere2.transform.Scale(0.5, 0.5, 0.5);
 
             PointLight light = new(new Point(-10, 10, -10), new Color(1, 1, 1));
 
@@ -97,7 +97,7 @@ namespace RT.Source.World
         private bool IsPointFromLightShadowed(Point point, PointLight light)
         {
             Vector vector = new(light.position - point);
-            float distance = Vector.Magnitude(vector);
+            double distance = Vector.Magnitude(vector);
             Vector direction = Vector.Normalize(vector);
 
             Ray ray = new(point, direction);

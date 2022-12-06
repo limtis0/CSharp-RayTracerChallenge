@@ -3,7 +3,7 @@ using RT.Source.Draw;
 using RT.Source.Light;
 using RT.Source.Materials;
 using RT.Source.Vectors;
-using static System.MathF;
+using static System.Math;
 
 namespace RayTracerTests
 {
@@ -17,10 +17,10 @@ namespace RayTracerTests
             Material m = new();
 
             Assert.AreEqual(m.color, new Color(1, 1, 1));
-            Assert.AreEqual(m.ambient, 0.1f);
-            Assert.AreEqual(m.diffuse, 0.9f);
-            Assert.AreEqual(m.specular, 0.9f);
-            Assert.AreEqual(m.shininess, 200f);
+            Assert.AreEqual(m.ambient, 0.1);
+            Assert.AreEqual(m.diffuse, 0.9);
+            Assert.AreEqual(m.specular, 0.9);
+            Assert.AreEqual(m.shininess, 200);
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace RayTracerTests
             // Setup
             Material m = new();
             Point position = new(0, 0, 0);
-            float r2d2 = Sqrt(2) / 2;
+            double r2d2 = Sqrt(2) / 2;
 
 
             // Lighting with eye between the light and the surface
@@ -38,7 +38,7 @@ namespace RayTracerTests
             PointLight light1 = new(new Point(0, 0, -10), new Color(1, 1, 1));
             Color result1 = m.Lighting(light1, position, eyeV1, normalV1);
 
-            Assert.AreEqual(result1, new Color(1.9f, 1.9f, 1.9f));
+            Assert.AreEqual(result1, new Color(1.9, 1.9, 1.9));
 
 
             // Same as previous, but with 45deg offset
@@ -52,21 +52,21 @@ namespace RayTracerTests
             PointLight light3 = new(new Point(0, 10, -10), new Color(1, 1, 1));
             Color result3 = m.Lighting(light3, position, eyeV1, normalV1);
 
-            Assert.AreEqual(result3, new Color(0.7364f, 0.7364f, 0.7364f));
+            Assert.AreEqual(result3, new Color(0.7364, 0.7364, 0.7364));
 
 
             // Lighting with eye in the path of the reflection vector
             Vector eyeV4 = new(0, -r2d2, -r2d2);
             Color result4 = m.Lighting(light3, position, eyeV4, normalV1);
 
-            Assert.AreEqual(result4, new Color(1.63638f, 1.63638f, 1.63638f));
+            Assert.AreEqual(result4, new Color(1.63639, 1.63639, 1.63639));
 
 
             // Lighting behing surface
             PointLight light5 = new(new Point(0, 0, 10), new Color(1, 1, 1));
             Color result5 = m.Lighting(light5, position, eyeV1, normalV1);
 
-            Assert.AreEqual(result5, new Color(0.1f, 0.1f, 0.1f));
+            Assert.AreEqual(result5, new Color(0.1, 0.1, 0.1));
         }
 
         [TestMethod]
@@ -81,7 +81,7 @@ namespace RayTracerTests
             bool inShadow = true;
 
             Color result = m.Lighting(light, position, eyeV, normalV, inShadow);
-            Assert.AreEqual(result, new Color(0.1f, 0.1f, 0.1f));
+            Assert.AreEqual(result, new Color(0.1, 0.1, 0.1));
         }
     }
 }
