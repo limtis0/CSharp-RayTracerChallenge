@@ -20,29 +20,10 @@ namespace RT
             World world = World.Instance;
 
             // Floor
-            Sphere floor = new()
-            {
-                transform = Matrix.Scaling(10, 0.01, 10)
-            };
+            Plane floor = new();
             floor.material.color = new Color(1, 0.9, 0.9);
             floor.material.specular = 0;
             world.figures.Add(floor);
-
-            // Left wall
-            Sphere leftWall = new()
-            {
-                transform = Matrix.Scaling(10, 0.01, 10).RotateX(PI / 2).RotateY(-PI / 4).Translate(0, 0, 5),
-                material = floor.material
-            };
-            world.figures.Add(leftWall);
-
-            // Right wall
-            Sphere rightWall = new()
-            {
-                transform = Matrix.Scaling(10, 0.01, 10).RotateX(PI / 2).RotateY(PI / 4).Translate(0, 0, 5),
-                material = floor.material
-            };
-            world.figures.Add(rightWall);
 
             // Middle sphere
             Sphere middle = new()
@@ -90,7 +71,7 @@ namespace RT
 
             Canvas render = camera.Render();
 
-            render.ToPPM("world_shadows");
+            render.ToPPM("planes");
         }
     }
 }
